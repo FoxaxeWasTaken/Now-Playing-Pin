@@ -9,6 +9,7 @@ repos:
       - id: end-of-file-fixer
       - id: mixed-line-ending
         args: [--fix=lf]
+        exclude: \.bat$       # CRLF, as .gitattributes says
       - id: check-yaml
       - id: check-json
       - id: check-merge-conflict
@@ -38,6 +39,11 @@ repos:
     hooks:
       - id: clang-format
         types_or: [c++, c]  # the default list also formats JSON
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: v2.16.0
+    hooks:
+      - id: pretty-format-kotlin  # ktlint; needs Java on the PATH
+        args: [--autofix, --ktlint-version=1.8.0]
   - repo: local
     hooks:
       - id: no-arduino-in-portable-code
@@ -45,6 +51,11 @@ repos:
         language: pygrep
         entry: '#\s*include\s*[<"](Arduino|bluefruit|Adafruit_\w*|SPI|Wire|nrf\w*|GxEPD\w*)\.h'
         files: ^firmware/render/
+      - id: no-update-service
+        name: no over-the-air update service in the firmware
+        language: pygrep
+        entry: 'BLEDfu'           # Bluefruit's update service (docs/adr/0012-ble-security.md)
+        files: ^firmware/
       - id: check-docs
         name: links, ADR and spike indexes, ruleset file
         entry: python tools/check_docs.py

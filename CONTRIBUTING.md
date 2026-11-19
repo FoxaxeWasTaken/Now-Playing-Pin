@@ -23,7 +23,7 @@ pre-commit install --install-hooks -t pre-commit -t commit-msg
 ```
 
 The hooks run the same checks as CI on every commit, and refuse a commit message that is not
-a conventional commit.
+a conventional commit. The Kotlin hook needs Java on the PATH.
 
 ## 2. Workflow
 

@@ -1,6 +1,7 @@
 # Firmware
 
-Status: design, nothing implemented. Arduino, Seeed nRF52 core with Bluefruit
+Status: design. The sketch (`firmware/pin/`) is empty and only compiled by CI. Arduino,
+Seeed nRF52 core 1.1.13 with Bluefruit, board `Seeeduino:nrf52:xiaonRF52840Plus`
 ([ADR-0014](adr/0014-arduino-seeed-nrf52-core.md)).
 
 The screen is used in **landscape, 250 × 122**. This document describes V1

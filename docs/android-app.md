@@ -1,6 +1,7 @@
 # Android companion app
 
-Status: design, nothing implemented. Kotlin. This document describes V1
+Status: design. The project builds an empty app, nothing else is implemented. Kotlin. This
+document describes V1
 ([ADR-0010](adr/0010-v1-scope.md)).
 
 The app does all the work: it watches playback, prepares the images and pushes them to the
@@ -10,9 +11,10 @@ pin. Every data source is event driven. Nothing polls.
 
 - The app is installed by hand, not through a store
   ([ADR-0011](adr/0011-manual-install.md)).
-- Minimum Android version: not decided. Proposed: Android 13 (API 33), which keeps the
-  permission model simple. To decide when the project is scaffolded.
-- The app targets a recent API level, so the rules of Android 14 and later apply.
+- Minimum Android version: Android 13 (API 33), which keeps the permission model simple.
+- The app targets API 37, so the rules of Android 14 and later apply.
+- Built with Gradle and the Android Gradle plugin, which compiles Kotlin itself. The app has
+  no library dependency.
 
 Consequence of installing by hand: Android treats notification access as a restricted
 setting for such apps. The user has to allow restricted settings for the app once, in the
@@ -137,7 +139,8 @@ Expected content, from the Android documentation, to confirm when the app is sca
 - `BLUETOOTH_SCAN` is probably not needed, because the association goes through the system.
 - `INTERNET` is **not requested in V1**. It is only needed for the Spotify Code, which is
   planned for later. CI fails if the built app declares it.
-- Backup of the app's data is turned off.
+- Backup of the app's data is turned off: no cloud backup, and no copy to a new phone
+  (`allowBackup="false"` and data extraction rules that exclude everything).
 - Notification access is granted by the user in the system settings.
 
 ## Privacy

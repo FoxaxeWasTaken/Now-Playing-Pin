@@ -1,4 +1,6 @@
-# Automatic updates of GitHub Actions.
+# Automatic dependency updates: one grouped pull request per ecosystem and per month.
+# Not covered, updated by hand: doctest (firmware/CMakeLists.txt), the ktlint version
+# (.pre-commit-config.yaml), the mermaid-cli image (tools/check_mermaid.sh).
 version: 2
 updates:
   - package-ecosystem: github-actions
@@ -7,5 +9,32 @@ updates:
       interval: monthly
     cooldown:
       default-days: 7      # let a new release settle a week before proposing it
+    groups:
+      actions:
+        patterns: ["*"]
     commit-message:
       prefix: ci
+
+  - package-ecosystem: pre-commit
+    directory: /
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 7
+    groups:
+      hooks:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
+
+  - package-ecosystem: gradle   # the plugins, the libraries and the Gradle wrapper
+    directory: /android
+    schedule:
+      interval: monthly
+    cooldown:
+      default-days: 7
+    groups:
+      android:
+        patterns: ["*"]
+    commit-message:
+      prefix: build

@@ -1,8 +1,9 @@
 # Testing
 
-Status: **plan.** Only the host build of the portable C++ exists, with one test. This
-document says how each part of the project is meant to be tested, so that the code is
-written to be testable from the first commit.
+Status: **plan.** Only the builds exist: the Android app and the host build of the portable
+C++ with one test each, and an empty Arduino sketch. This document says how each part of the
+project is meant to be tested, so that the code is written to be testable from the first
+commit.
 
 ## Principles
 
@@ -43,7 +44,8 @@ on the phone for daily use. V1 is the first one.
 
 ### Android (plain Kotlin, JVM)
 
-These parts are written as pure functions so they run without a device or an emulator.
+These parts are written as pure functions so they run without a device or an emulator. The
+tests are local unit tests of the app module, with JUnit 4, run by Gradle.
 
 | Unit | What is tested |
 | --- | --- |
@@ -231,11 +233,15 @@ is the single check that the rules of `main` require.
 | --- | --- | --- |
 | lint | Every hook of `.pre-commit-config.yaml`, and the rendering of the Mermaid diagrams | yes |
 | conventional-commit | The pull request title, which becomes the squashed commit, follows Conventional Commits | yes |
-| android | Kotlin unit tests, debug build, Android lint, and a check that the built app does not declare the network permission | no |
+| android | Kotlin unit tests, debug build, Android lint, and a check that the built app does not declare the network permission | yes |
 | firmware-host | Build of the portable C++ on the PC with sanitizers, unit tests; later contract vectors, golden images, pipeline test | yes |
-| firmware-sketch | Compilation of the Arduino sketch for the board | no |
+| firmware-sketch | Compilation of the Arduino sketch for the board, with the portable C++, by the board's compiler | yes |
 | enclosure | Command-line render of the model | no |
 | ci-ok | Succeeds only if every job above succeeded | yes |
+
+Dependabot proposes the updates of the actions, the pre-commit hooks and the Gradle
+dependencies, one grouped pull request per month for each, which goes through CI like any
+other ([.github/dependabot.yml](../.github/dependabot.yml) lists what it does not cover).
 
 A job is added in the same pull request as the first code it covers, and listed in the
 `needs` of `ci-ok`. Every job always runs: `ci-ok` treats a skipped job as a failure. To
@@ -258,11 +264,11 @@ the whole CI before anything else.
 | Commits | conventional-pre-commit | Each commit message is a conventional commit | yes |
 | Workflows | actionlint, zizmor | Mistakes and security of the CI files themselves | yes |
 | Python (`tools/`) | ruff | Formatting and lint, one tool for both | yes |
-| Kotlin | ktlint | Formatting and style, one tool for both | no |
-| Android | Android Lint | Platform mistakes, missing permissions | no |
+| Kotlin | ktlint, through `pretty-format-kotlin` (needs Java on the PATH) | Formatting and style, one tool for both | yes |
+| Android | Android Lint, in the `android` job | Platform mistakes, missing permissions | yes |
 | C++ | clang-format (`firmware/.clang-format`) | Formatting | yes |
 | C++ | Compiler warnings as errors (`-Wall -Wextra -Werror`) and the sanitizers | Most real mistakes, with no extra tool | yes |
-| Project rules | Pattern hooks of pre-commit (`language: pygrep`) | What no linter knows: no Arduino include in the portable code (in place), no network permission in the app, no update service in the firmware | partly |
+| Project rules | Pattern hooks of pre-commit (`language: pygrep`), and a step of the `android` job | What no linter knows: no Arduino include in the portable code, no network permission in the built app, no update service (`BLEDfu`) in the firmware | yes |
 
 Left out on purpose until a real need shows: detekt and clang-tidy (slow, noisy on a small
 code base), spell checking, and a coverage threshold.

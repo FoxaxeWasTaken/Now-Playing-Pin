@@ -57,8 +57,9 @@ The directories marked "planned" are created when their first real file lands.
 ```text
 docs/         design documents
 tools/        scripts (documentation checks today; test vectors later)
-android/      companion app (Kotlin, Gradle)                         planned
-firmware/     host build (CMake) of the portable C++; Arduino sketch planned
+android/      companion app (Kotlin, Gradle), an empty screen today
+firmware/     host build (CMake) of the portable C++
+  pin/        Arduino sketch for the board (empty today)
   render/     portable C++ (framebuffer, layout, QR code)
   sim/        PC executable that renders test packets to images
   tests/      unit tests of the portable C++ (doctest)
