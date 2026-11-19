@@ -47,14 +47,28 @@ jobs:
           fi
           echo "OK: $subject"
 
-  # Add the other jobs here (android, firmware-host, firmware-sketch, enclosure) and list
+  # Add the other jobs here (android, firmware-sketch, enclosure) and list
   # them in the "needs" of ci-ok. A job must always run: ci-ok treats a skipped job as a
   # failure. To skip work when nothing relevant changed, put the condition on the steps,
   # never on the job or on the workflow.
 
+  firmware-host:
+    name: Firmware (host build and tests)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Configure, with warnings as errors and the sanitizers
+        run: cmake -S firmware -B build/firmware
+      - name: Build
+        run: cmake --build build/firmware --parallel
+      - name: Test
+        run: ctest --test-dir build/firmware --output-on-failure
+
   ci-ok:
     if: always()
-    needs: [lint, conventional-commit]
+    needs: [lint, conventional-commit, firmware-host]
     runs-on: ubuntu-latest
     steps:
       - name: Fail unless every job succeeded

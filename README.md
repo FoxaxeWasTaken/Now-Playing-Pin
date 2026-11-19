@@ -7,7 +7,7 @@ The pin is held on clothing by a magnetic badge clip and is meant to run for mon
 small LiPo cell.
 
 > **Status: design phase.** No hardware has been ordered or measured, and this repository
-> contains documentation only. Values tagged **[to verify]** come from public pages and have
+> contains documentation and build scaffolding only. Values tagged **[to verify]** come from public pages and have
 > not been confirmed on a real part. Battery life figures are estimates, never measured.
 
 ## How it works
@@ -52,16 +52,16 @@ Details and the list of things to confirm are in [docs/hardware.md](docs/hardwar
 
 ## Repository layout
 
-Only `docs/` and the repository tooling exist today. The other directories are created when
-their first real file lands.
+The directories marked "planned" are created when their first real file lands.
 
 ```text
 docs/         design documents
 tools/        scripts (documentation checks today; test vectors later)
 android/      companion app (Kotlin, Gradle)                         planned
-firmware/     Arduino sketch and portable rendering library          planned
+firmware/     host build (CMake) of the portable C++; Arduino sketch planned
   render/     portable C++ (framebuffer, layout, QR code)
   sim/        PC executable that renders test packets to images
+  tests/      unit tests of the portable C++ (doctest)
 enclosure/    parametric CAD                                         planned
 ```
 
