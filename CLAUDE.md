@@ -15,8 +15,8 @@ Keep this section up to date when it changes.
 
 - Design phase. The repository contains documentation and repository tooling only.
 - No hardware has been ordered or measured.
-- No application code exists. The portable C++ has its host build, one test and its CI job
-  (`firmware-host`), but no real code yet.
+- The builds exist, with one test and one CI job each: the Android app (`android`, an empty
+  screen) and the portable C++ (`firmware-host`). No real code yet.
 - Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)).
 - **The first task is to set up the whole CI**: scaffolding, code quality tools and one job
   per part ([docs/testing.md](docs/testing.md)). Remind the maintainer of this if another
@@ -25,7 +25,7 @@ Keep this section up to date when it changes.
   waits for spike 0012 on the hardware.
 - The values in [docs/display-spec.md](docs/display-spec.md) are starting values, to confirm
   with spike 0011.
-- Not decided: the minimum Android version, the list of apps shown on the pin.
+- Not decided: the list of apps shown on the pin.
 
 ## Where things are
 
@@ -49,7 +49,7 @@ Keep this section up to date when it changes.
 | Rules applied to `main` on GitHub | [.github/rulesets/main.json](.github/rulesets/main.json) |
 | Project skills and agents | [.claude/](.claude/) |
 
-Planned directories, created with their first real file: `android/`, `enclosure/`.
+Planned directory, created with its first real file: `enclosure/`.
 
 ## Rules
 
@@ -171,6 +171,11 @@ cmake -S firmware -B build/firmware                   # configure: warnings as e
 cmake --build build/firmware --parallel               # build
 ctest --test-dir build/firmware --output-on-failure   # run the tests
 ./build/firmware/sim                                  # run the simulator
+
+# Android app, from android/, on Linux or in WSL (JDK 21, Android SDK, see Known traps):
+./gradlew testDebugUnitTest      # JVM unit tests
+./gradlew assembleDebug          # build app/build/outputs/apk/debug/app-debug.apk
+./gradlew lintDebug              # Android Lint, fails on an error
 ```
 
 When a part gets its build, record here the exact commands to build it and to run its tests.
@@ -188,6 +193,11 @@ What has already cost time, or would. Add to this list when a new one is found.
   On Windows, build and test in WSL.
 - `pre-commit run --all-files` only sees files known to git: `git add` a new file before
   running it, or its hooks are skipped.
+- The Kotlin hook (ktlint) runs Java: committing a `.kt` file needs Java on the PATH of the
+  machine that commits.
+- The Android build finds the SDK through `ANDROID_HOME` or `android/local.properties`
+  (`sdk.dir=...`), which stays local. The SDK licences must be accepted once
+  (`sdkmanager --licenses`), otherwise Gradle cannot download the platform.
 - Not tried on hardware yet, read in sources ([docs/adr/0012-ble-security.md](docs/adr/0012-ble-security.md),
   [docs/firmware.md](docs/firmware.md)): the Bluetooth library accepts every pairing request;
   a wake from System OFF is a restart with a button held; the XIAO's flash draws current
