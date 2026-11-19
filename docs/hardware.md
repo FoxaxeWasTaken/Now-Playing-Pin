@@ -27,7 +27,7 @@ project uses the black and white one: it refreshes faster and supports partial r
 
 | Item | Value | Source |
 | --- | --- | --- |
-| PCB outline | 25.00 × 52.16 mm **[to verify]** | PCB file. An earlier figure of about 27 mm probably included the buttons |
+| PCB outline | 25.00 × 52.16 mm **[to verify]** | PCB file. The buttons stick out beyond this outline |
 | Mounting holes | 4 holes, 2.5 mm **[to verify]** | PCB file |
 | Component side | All components on one face **[to verify]** | PCB file |
 | Board dimensions on the wiki | Not given | Wiki |

@@ -15,8 +15,7 @@ Status: requirements only. No CAD file yet, no part measured.
 ## Target
 
 About **33 × 64 × 14 mm**, with a thin battery stacked behind the board
-([ADR-0013](adr/0013-enclosure-envelope.md)). This is a paper estimate. It replaces an
-earlier target of 31 × 61 × 10 to 12 mm, which the stack below does not allow.
+([ADR-0013](adr/0013-enclosure-envelope.md)). This is a paper estimate.
 
 ### Thickness budget
 

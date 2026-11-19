@@ -1,6 +1,0 @@
-{
-  // Lines are wrapped by hand around 95 characters, and tables cannot be wrapped.
-  "MD013": false,
-  // Issue and pull request templates start with front matter or a comment, not a heading.
-  "MD041": false
-}

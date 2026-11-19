@@ -224,7 +224,7 @@ is the single check that the rules of `main` require.
 
 | Job | Content | Exists |
 | --- | --- | --- |
-| docs | Markdown lint, and `tools/check_docs.py`: relative links, ADR and spike indexes, ruleset file | yes |
+| lint | Every hook of `.pre-commit-config.yaml`, and the rendering of the Mermaid diagrams | yes |
 | conventional-commit | The pull request title, which becomes the squashed commit, follows Conventional Commits | yes |
 | android | Kotlin unit tests, debug build, Android lint, and a check that the built app does not declare the network permission | no |
 | firmware-host | Build of the portable C++ on the PC with sanitizers, unit tests, contract vectors, golden images, pipeline test | no |
@@ -239,20 +239,25 @@ or on the workflow.
 
 ## Code quality tools
 
-One formatter and one linter per language, no more. Each runs in the CI job of its part and
-fails the job. They are set up with the first code of each part, as part of the first task
-of the project: the whole CI before anything else.
+One formatter and one linter per language, no more. They are all hooks of
+`.pre-commit-config.yaml`: the same file runs on every commit and in the `lint` job of CI. A
+tool is added to it with the first code it checks, as part of the first task of the project:
+the whole CI before anything else.
 
 | Part | Tool | What it does | In place |
 | --- | --- | --- | --- |
+| Every file | pre-commit-hooks | Line endings, trailing spaces, large files, private keys, YAML and JSON syntax | yes |
 | Markdown | markdownlint | Style of the documents | yes |
 | Documents | `tools/check_docs.py` | Links, indexes, ruleset file | yes |
+| Diagrams | `tools/check_mermaid.sh` | Every Mermaid diagram renders | yes |
+| Commits | conventional-pre-commit | Each commit message is a conventional commit | yes |
+| Workflows | actionlint, zizmor | Mistakes and security of the CI files themselves | yes |
+| Python (`tools/`) | ruff | Formatting and lint, one tool for both | yes |
 | Kotlin | ktlint | Formatting and style, one tool for both | no |
 | Android | Android Lint | Platform mistakes, missing permissions | no |
 | C++ | clang-format | Formatting | no |
 | C++ | Compiler warnings as errors (`-Wall -Wextra -Werror`) and the sanitizers | Most real mistakes, with no extra tool | no |
-| Python (`tools/`) | ruff | Formatting and lint, one tool for both | no |
-| Workflows | actionlint | Mistakes in the CI files themselves | no |
+| Project rules | A guard script that greps the code | What no linter knows: no Arduino include in the portable code, no network permission in the app, no update service in the firmware | no |
 
 Left out on purpose until a real need shows: detekt and clang-tidy (slow, noisy on a small
 code base), spell checking, and a coverage threshold.

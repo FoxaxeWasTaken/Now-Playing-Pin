@@ -79,8 +79,7 @@ custom sleep image.
   writes.
 - The share link is 78 bytes at most. That is what a version 4 QR code holds at the lowest
   error correction level, and version 4 is the largest code that keeps a usable margin on
-  this screen ([display-spec.md](display-spec.md)). An earlier limit of 100 bytes needed a
-  version 5 code. Confirmed or lowered by
+  this screen ([display-spec.md](display-spec.md)). Confirmed or lowered by
   [spike 0005](spikes/0005-qr-size-and-scannability.md).
 
 ## Connection lifecycle

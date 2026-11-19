@@ -29,7 +29,10 @@ def markdown_files() -> list[Path]:
     """Tracked and untracked Markdown files, ignoring what git ignores."""
     out = subprocess.run(
         ["git", "ls-files", "--cached", "--others", "--exclude-standard", "*.md"],
-        cwd=ROOT, capture_output=True, text=True, check=True,
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
     ).stdout
     return [ROOT / line for line in out.splitlines() if (ROOT / line).is_file()]
 
@@ -71,7 +74,9 @@ def exists_exact(base: Path, relative: str) -> bool:
         if part == "..":
             current = current.parent
             continue
-        if not current.is_dir() or part not in {entry.name for entry in current.iterdir()}:
+        if not current.is_dir() or part not in {
+            entry.name for entry in current.iterdir()
+        }:
             return False
         current = current / part
     return True
@@ -89,19 +94,26 @@ def check_index(directory: str, label: str) -> list[str]:
             continue
         number = match.group(1)
         if number in numbers:
-            errors.append(f"{directory}: number {number} used by {numbers[number]} and {path.name}")
+            errors.append(
+                f"{directory}: number {number} used by {numbers[number]} and {path.name}"
+            )
         numbers[number] = path.name
         status = STATUS.search(path.read_text(encoding="utf-8"))
         if not status:
             errors.append(f"{directory}/{path.name}: no '- Status:' line")
             continue
         row = next(
-            (line for line in index.splitlines()
-             if line.startswith("|") and f"]({path.name})" in line),
+            (
+                line
+                for line in index.splitlines()
+                if line.startswith("|") and f"]({path.name})" in line
+            ),
             None,
         )
         if row is None:
-            errors.append(f"{directory}/README.md: {label} {path.name} is not in the index")
+            errors.append(
+                f"{directory}/README.md: {label} {path.name} is not in the index"
+            )
         elif status.group(1) not in row:
             errors.append(
                 f"{directory}/README.md: {path.name} is '{status.group(1)}' in its file, "
@@ -129,7 +141,9 @@ def main() -> int:
     )
 
     tags = {
-        str(p.relative_to(ROOT)).replace("\\", "/"): p.read_text(encoding="utf-8").count("[to verify")
+        str(p.relative_to(ROOT)).replace("\\", "/"): p.read_text(
+            encoding="utf-8"
+        ).count("[to verify")
         for p in files
     }
     total = sum(tags.values())

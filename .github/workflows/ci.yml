@@ -16,18 +16,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  docs:
+  lint:
+    name: Lint (pre-commit)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Markdown lint
-        uses: DavidAnson/markdownlint-cli2-action@696eb3f2509270d7b882d2aa68347bc676e7af34 # v25.0.0
-        with:
-          globs: "**/*.md"
-      - name: Links, indexes and ruleset
-        run: python3 tools/check_docs.py
+      - name: Every hook of .pre-commit-config.yaml
+        run: pipx run pre-commit run --all-files --show-diff-on-failure
+      - name: Every Mermaid diagram renders
+        run: bash tools/check_mermaid.sh
 
   # Pull requests are squashed: the title is the commit that lands on main.
   conventional-commit:
@@ -43,8 +42,7 @@ jobs:
           subject="${PR_TITLE:-$(printf '%s\n' "$HEAD_MESSAGE" | head -n 1)}"
           pattern='^(feat|fix|docs|test|refactor|perf|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: .+'
           if [[ ! "$subject" =~ $pattern ]]; then
-            echo "Not a conventional commit: $subject"
-            echo "Expected: <type>(<scope>): <description>, for example feat(firmware): add the QR share view"
+            echo "::error::Not a conventional commit, expected 'type(scope): description': $subject"
             exit 1
           fi
           echo "OK: $subject"
@@ -56,12 +54,14 @@ jobs:
 
   ci-ok:
     if: always()
-    needs: [docs, conventional-commit]
+    needs: [lint, conventional-commit]
     runs-on: ubuntu-latest
     steps:
       - name: Fail unless every job succeeded
+        env:
+          RESULTS: ${{ toJSON(needs.*.result) }}
         run: |
-          echo '${{ toJSON(needs) }}'
-          if [ "${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') || contains(needs.*.result, 'skipped') }}" = "true" ]; then
+          echo "$RESULTS"
+          if echo "$RESULTS" | grep -Eq 'failure|cancelled|skipped'; then
             exit 1
           fi

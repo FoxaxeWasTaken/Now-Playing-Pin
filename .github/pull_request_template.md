@@ -10,7 +10,8 @@ Closes #
 
 ## Verification
 
-<!-- What was actually run and what came out. What was not checked, and why. -->
+<!-- What was actually run and what came out: the failing test first (RED), then the
+passing one (GREEN). What was not checked, and why. -->
 
 ## Left for later
 
@@ -25,4 +26,3 @@ Closes #
 - [ ] Makes a choice worth remembering (an ADR, or the reason in one line here)
 - [ ] Regenerates a golden image or a test vector
 - [ ] Documents and `CLAUDE.md` still match the code
-- [ ] Someone using the pin or the app would notice (and `CHANGELOG.md` has its line)
