@@ -95,8 +95,8 @@ Then:
 1. QR share view, and the second part of
    [spike 0005](spikes/0005-qr-size-and-scannability.md) on the real panel.
 2. [Spike 0010](spikes/0010-partial-refresh-ghosting.md): partial refresh on dithered covers.
-3. Enclosure: [spike 0007](spikes/0007-cad-tool.md), then the case modelled from the measured
-   parts.
+3. Enclosure: the case modelled in OpenSCAD
+   ([ADR-0016](adr/0016-openscad-for-the-enclosure.md)) from the measured parts.
 4. Power measurements ([power.md](power.md)) and the battery life estimate.
 5. A full day worn.
 

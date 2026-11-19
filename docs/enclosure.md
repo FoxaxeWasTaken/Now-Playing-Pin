@@ -1,11 +1,13 @@
 # Enclosure
 
-Status: requirements only. No CAD file yet, no part measured.
+Status: requirements. The model (`enclosure/case.scad`) is the envelope only, no part
+measured.
 
 ## Approach
 
-- CAD **by code and parametric** ([ADR-0009](adr/0009-parametric-enclosure-as-code.md)). The
-  tool is chosen in [spike 0007](spikes/0007-cad-tool.md).
+- CAD **by code and parametric** ([ADR-0009](adr/0009-parametric-enclosure-as-code.md)), in
+  OpenSCAD 2021.01 ([ADR-0016](adr/0016-openscad-for-the-enclosure.md)). CI exports every
+  model of `enclosure/` to STL.
 - Every dimension is a variable at the top of the file. The initial values are the published
   dimensions ([hardware.md](hardware.md)); they are replaced by caliper measurements once the
   parts are in hand.

@@ -1,6 +1,6 @@
 # Spike 0007: OpenSCAD or CadQuery
 
-- Status: Planned
+- Status: Abandoned
 - Needs the pin: no
 - Time box: half a day (suggested)
 - Feeds: a future ADR, [enclosure.md](../enclosure.md),
@@ -40,4 +40,6 @@ Not run.
 
 ## Outcome
 
-To be written. Expected: an ADR naming the tool, and the first file in `enclosure/`.
+Abandoned on 2026-11-20 without being run: the maintainer chose OpenSCAD, because they do
+not know CadQuery and want CI kept cheap ([ADR-0016](../adr/0016-openscad-for-the-enclosure.md)). The test
+piece was not modelled in either tool, so the comparison above was never made.

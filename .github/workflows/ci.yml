@@ -92,9 +92,27 @@ jobs:
       - name: Compile for the XIAO nRF52840 Plus, with the portable code
         run: arduino-cli compile --fqbn Seeeduino:nrf52:xiaonRF52840Plus --library firmware/render firmware/pin
 
-  # Add the other jobs here (enclosure) and list
-  # them in the "needs" of ci-ok. A job must always run: ci-ok treats a skipped job as a
-  # failure. To skip work when nothing relevant changed, put the condition on the steps,
+  enclosure:
+    name: Enclosure (OpenSCAD models)
+    runs-on: ubuntu-24.04 # pinned: its Ubuntu release sets OpenSCAD 2021.01 (docs/adr/0016-*)
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install OpenSCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends openscad
+          openscad --version
+      - name: Export every model to STL, warnings as errors
+        run: |
+          mkdir -p build/enclosure
+          for model in enclosure/*.scad; do
+            openscad --hardwarnings -o "build/enclosure/$(basename "$model" .scad).stl" "$model"
+          done
+
+  # A new job goes here and in the "needs" of ci-ok. A job must always run: ci-ok treats a
+  # skipped job as a failure. To skip work when nothing relevant changed, put the condition on the steps,
   # never on the job or on the workflow.
 
   firmware-host:
@@ -113,7 +131,7 @@ jobs:
 
   ci-ok:
     if: always()
-    needs: [lint, conventional-commit, firmware-host, firmware-sketch, android]
+    needs: [lint, conventional-commit, firmware-host, firmware-sketch, android, enclosure]
     runs-on: ubuntu-latest
     steps:
       - name: Fail unless every job succeeded

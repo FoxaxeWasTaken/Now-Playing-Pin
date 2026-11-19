@@ -14,7 +14,7 @@ be made on evidence. The process is defined in
 | [0004](0004-connection-interval-android.md) | Which connection parameters can the pin get from an Android phone? | Partly | Planned |
 | [0005](0005-qr-size-and-scannability.md) | Is the planned QR code readable? | Partly | Planned |
 | [0006](0006-app-preview-renderer.md) | How does the app preview stay identical to the pin? | No | Planned |
-| [0007](0007-cad-tool.md) | OpenSCAD or CadQuery? | No | Planned |
+| [0007](0007-cad-tool.md) | OpenSCAD or CadQuery? | No | Abandoned |
 | [0008](0008-board-idle-current.md) | How much does the board draw at rest? | Yes | Planned |
 | [0009](0009-display-driver.md) | Does the display library drive this panel on the EN05? | Yes | Planned |
 | [0010](0010-partial-refresh-ghosting.md) | Is partial refresh good enough on dithered covers? | Yes | Planned |
