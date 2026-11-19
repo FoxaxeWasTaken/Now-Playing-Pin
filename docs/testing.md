@@ -238,6 +238,10 @@ is the single check that the rules of `main` require.
 | enclosure | Command-line render of the model | no |
 | ci-ok | Succeeds only if every job above succeeded | yes |
 
+Dependabot proposes the updates of the actions, the pre-commit hooks and the Gradle
+dependencies, one grouped pull request per month for each, which goes through CI like any
+other ([.github/dependabot.yml](../.github/dependabot.yml) lists what it does not cover).
+
 A job is added in the same pull request as the first code it covers, and listed in the
 `needs` of `ci-ok`. Every job always runs: `ci-ok` treats a skipped job as a failure. To
 skip work when nothing relevant changed, the condition goes on the steps, never on the job
