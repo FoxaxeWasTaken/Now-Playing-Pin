@@ -1,0 +1,49 @@
+# Install (once per clone):  pipx install pre-commit && pre-commit install --install-hooks -t pre-commit -t commit-msg
+# Run on the whole repo:      pre-commit run --all-files
+# CI runs exactly this file. A tool is added here with the first code it checks (docs/testing.md).
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+      - id: detect-private-key
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.10
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.23.3
+    hooks:
+      - id: markdownlint-cli2
+  - repo: https://github.com/Mateusz-Grzelinski/actionlint-py
+    rev: v1.7.12.25
+    hooks:
+      - id: actionlint
+  - repo: https://github.com/zizmorcore/zizmor-pre-commit
+    rev: v1.31.0
+    hooks:
+      - id: zizmor              # workflow security: pinned actions, token scope, template injection
+  - repo: local
+    hooks:
+      - id: check-docs
+        name: links, ADR and spike indexes, ruleset file
+        entry: python tools/check_docs.py
+        language: system
+        files: \.(md|json)$
+        pass_filenames: false
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: [feat, fix, docs, test, refactor, perf, build, ci, chore, revert]

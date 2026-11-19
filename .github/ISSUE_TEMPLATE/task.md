@@ -1,8 +1,14 @@
 ---
 name: Task
 about: A piece of work on the app, the firmware, the enclosure, the tools or the docs
-labels: "type:task"
+labels: "task"
 ---
+
+<!--
+One pull-request-sized ticket, written so that an AI agent can do it without asking:
+exact files, checkable criteria, what not to touch. Anatomy and Definition of Ready:
+CONTRIBUTING.md, section 7.
+-->
 
 ## Goal
 
@@ -23,3 +29,7 @@ labels: "type:task"
 ## Out of scope
 
 <!-- What this ticket does not do, so that it stays one pull request. -->
+
+## Files and interfaces
+
+<!-- Paths to create or modify; protocol messages, documents or settings touched. -->

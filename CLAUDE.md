@@ -82,13 +82,20 @@ Planned directories, created with their first real file: `android/`, `firmware/r
 
 ## Workflow
 
-- One branch per feature, from `main`, named `<area>/<short-description>`.
+- Work comes from GitHub issues. The issue body is the specification and its *Out of scope*
+  section is binding.
+- One branch per ticket, from `main`, named `<type>/<issue#>-<short-topic>`.
 - Never commit on `main` directly. Changes reach `main` through a pull request, which runs CI
   and leaves a short record. Nobody reviews it.
 - Commit and push only when the maintainer asks.
 - Conventional Commits: `<type>(<scope>): <description>`, for example
   `feat(firmware): add the QR share view`. Types and scopes are listed in `CONTRIBUTING.md`.
   Pull requests are squashed, so the pull request title is the commit, and CI checks it.
+  A local hook checks each commit message.
+- A referenced document is ambiguous? Decide, say so in the pull request, and update that
+  document in the same pull request. A conflict with an accepted ADR is different: stop.
+- A pull request updates every document it makes wrong. Documents say what exists, in the
+  present, never how it got there.
 - Never commit signing keys, `local.properties` or credentials.
 - Work is tracked as GitHub issues on the "Now Playing Pin" project board. One ticket is one
   pull request, and one ticket is in progress at a time.
@@ -150,17 +157,31 @@ Read [docs/testing.md](docs/testing.md) before writing code. In short:
 | A label, a milestone or the name of the board | `CONTRIBUTING.md`, which the skills refer to |
 | A CI job is added | The `needs` of `ci-ok` in `.github/workflows/ci.yml`, the CI table in `docs/testing.md`, "Commands" below |
 | The project moves to another milestone | "Current state" above and the status in `README.md` |
-| A change someone using the pin or the app would notice | One line under "Unreleased" in `CHANGELOG.md`, in the same pull request |
+| A milestone is reached | `CHANGELOG.md`, from the titles of the merged pull requests |
 
 ## Commands
 
 ```bash
-python tools/check_docs.py          # relative links, ADR and spike indexes, ruleset file
-npx markdownlint-cli2 "**/*.md"     # Markdown lint, as in CI (needs Node.js)
+pre-commit run --all-files     # every lint and check, exactly as in CI
+bash tools/check_mermaid.sh    # every Mermaid diagram renders (needs Docker)
 ```
 
 When a build system lands, record here the exact commands to build and to run the tests of
 each part.
+
+## Known traps
+
+What has already cost time, or would. Add to this list when a new one is found.
+
+- A Markdown file can pass the editor's linter and still fail in CI: run pre-commit.
+- `ci-ok` treats a skipped job as a failure. A condition goes on the steps of a job, never on
+  the job itself.
+- Fixing a pull request title reruns CI by itself. Nothing has to be pushed.
+- `main` cannot be pushed to, by anyone. Every change goes through a pull request.
+- Not tried on hardware yet, read in sources ([docs/adr/0012-ble-security.md](docs/adr/0012-ble-security.md),
+  [docs/firmware.md](docs/firmware.md)): the Bluetooth library accepts every pairing request;
+  a wake from System OFF is a restart with a button held; the XIAO's flash draws current
+  until it is put to sleep; the MTU is negotiated, never 247 by default.
 
 ## Area notes
 

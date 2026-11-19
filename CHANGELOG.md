@@ -1,8 +1,7 @@
 # Changelog
 
-What changed in this project, newest first. One line for each change that someone using the
-pin or the app would notice. A fix to a document, a refactoring or a test does not need one:
-the pull request is its record.
+What changed in this project, newest first. Written when a milestone is reached, from the
+titles of the merged pull requests, and not touched in between.
 
 A version is a release as defined in [docs/testing.md](docs/testing.md): a tagged state of
 the repository that is flashed on the pin and installed on the phone. The protocol has its

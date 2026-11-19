@@ -1,7 +1,7 @@
 ---
 name: Bug or mistake
 about: Something that does not work, or an error in the documentation
-labels: "type:bug"
+labels: "bug"
 ---
 
 ## What is wrong
