@@ -86,8 +86,9 @@ Planned directories, created with their first real file: `android/`, `firmware/r
 - Never commit on `main` directly. Changes reach `main` through a pull request, which runs CI
   and leaves a short record. Nobody reviews it.
 - Commit and push only when the maintainer asks.
-- Commit subject in the imperative with an area prefix: `docs:`, `android:`, `firmware:`,
-  `enclosure:`, `hardware:`, `tools:`, `ci:`.
+- Conventional Commits: `<type>(<scope>): <description>`, for example
+  `feat(firmware): add the QR share view`. Types and scopes are listed in `CONTRIBUTING.md`.
+  Pull requests are squashed, so the pull request title is the commit, and CI checks it.
 - Never commit signing keys, `local.properties` or credentials.
 - Work is tracked as GitHub issues on the "Now Playing Pin" project board. One ticket is one
   pull request, and one ticket is in progress at a time.
@@ -131,6 +132,8 @@ Read [docs/testing.md](docs/testing.md) before writing code. In short:
 
 - Write logic so it runs without hardware: plain Kotlin outside Android services, portable
   C++ outside the Arduino sketch.
+- Work test first (TDD): write the failing test, show that it fails, then write the code.
+  Not for documents, throwaway spike code, the enclosure model or the hardware layer.
 - New logic comes with its tests in the same change.
 - The protocol exists in Kotlin and in C++ and both are tested against the same vectors.
 - Golden images are compared byte for byte and are never regenerated just to make a test pass.

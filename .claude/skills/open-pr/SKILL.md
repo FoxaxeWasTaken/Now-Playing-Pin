@@ -41,7 +41,9 @@ Fill `.github/pull_request_template.md`.
   remembering goes here with its reason, unless it has its own ADR.
 - English. No praise, no filler, no account of the process.
 
-Title: the squash commit subject, `<area>: <imperative sentence>`.
+Title: the squash commit subject, as a conventional commit:
+`<type>(<scope>): <imperative sentence>`, with the types and scopes of `CONTRIBUTING.md`.
+CI refuses any other form.
 
 ## Open
 

@@ -94,8 +94,14 @@ When a CI job is added, nothing changes in the rules: `ci-ok` covers it.
 
 ## Commits
 
-- Subject line in the imperative, prefixed with the area it touches:
-  `docs:`, `android:`, `firmware:`, `enclosure:`, `hardware:`, `tools:`, `ci:`.
+- [Conventional Commits](https://www.conventionalcommits.org/): `<type>(<scope>): <description>`,
+  description in the imperative.
+  - Types: `feat`, `fix`, `docs`, `test`, `refactor`, `perf`, `build`, `ci`, `chore`, `revert`.
+  - Scope, optional, is the area touched: `android`, `firmware`, `protocol`, `enclosure`,
+    `hardware`, `tools`.
+  - A `!` before the colon marks a breaking change, such as a new protocol version.
+- Pull requests are squashed, so the pull request title is the commit that lands on `main`.
+  CI checks that title. The commits inside a branch are not checked.
 - Never commit signing keys, `local.properties` or any credential.
 - Never commit third-party material without a licence that allows it: no logo, no real cover
   art, no file fetched from a music service. A font goes in with its licence file.
@@ -104,7 +110,7 @@ When a CI job is added, nothing changes in the rules: `ci-ok` covers it.
 Example:
 
 ```text
-firmware: put QSPI flash in deep power-down after refresh
+fix(firmware): put QSPI flash in deep power-down after refresh
 ```
 
 ## Decisions and experiments
@@ -122,6 +128,10 @@ firmware: put QSPI flash in deep power-down after refresh
 The full strategy is in [docs/testing.md](docs/testing.md). The rules that apply to every
 pull request:
 
+- **Test first.** Logic is written with TDD: a failing test, the code that makes it pass,
+  then the clean-up. This applies to everything that runs without hardware. It does not
+  apply to documents, to throwaway spike code, to the enclosure model or to the thin layer
+  that talks to the hardware.
 - New logic comes with its tests in the same pull request.
 - A protocol change updates [docs/protocol.md](docs/protocol.md), both implementations and
   the shared vectors together.
