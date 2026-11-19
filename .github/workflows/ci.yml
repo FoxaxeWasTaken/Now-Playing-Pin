@@ -72,7 +72,27 @@ jobs:
             exit 1
           fi
 
-  # Add the other jobs here (firmware-sketch, enclosure) and list
+  firmware-sketch:
+    name: Firmware (Arduino sketch)
+    runs-on: ubuntu-latest
+    env:
+      BOARDS_URL: https://files.seeedstudio.com/arduino/package_seeeduino_boards_index.json
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: arduino/setup-arduino-cli@81d310742121c928ea9c8bbd407b4217b432ae02 # v2.0.0
+        with:
+          version: 1.5.1
+      - name: Install the Seeed nRF52 core, and the tool its build calls
+        run: |
+          arduino-cli core update-index --additional-urls "$BOARDS_URL"
+          arduino-cli core install Seeeduino:nrf52@1.1.13 --additional-urls "$BOARDS_URL"
+          pipx install adafruit-nrfutil==0.5.3.post16
+      - name: Compile for the XIAO nRF52840 Plus, with the portable code
+        run: arduino-cli compile --fqbn Seeeduino:nrf52:xiaonRF52840Plus --library firmware/render firmware/pin
+
+  # Add the other jobs here (enclosure) and list
   # them in the "needs" of ci-ok. A job must always run: ci-ok treats a skipped job as a
   # failure. To skip work when nothing relevant changed, put the condition on the steps,
   # never on the job or on the workflow.
@@ -93,7 +113,7 @@ jobs:
 
   ci-ok:
     if: always()
-    needs: [lint, conventional-commit, firmware-host, android]
+    needs: [lint, conventional-commit, firmware-host, firmware-sketch, android]
     runs-on: ubuntu-latest
     steps:
       - name: Fail unless every job succeeded

@@ -15,8 +15,9 @@ Keep this section up to date when it changes.
 
 - Design phase. The repository contains documentation and repository tooling only.
 - No hardware has been ordered or measured.
-- The builds exist, with one test and one CI job each: the Android app (`android`, an empty
-  screen) and the portable C++ (`firmware-host`). No real code yet.
+- The builds exist, each with its CI job: the Android app (`android`, an empty screen, one
+  test), the portable C++ (`firmware-host`, one test) and the Arduino sketch
+  (`firmware-sketch`, empty). No real code yet.
 - Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)).
 - **The first task is to set up the whole CI**: scaffolding, code quality tools and one job
   per part ([docs/testing.md](docs/testing.md)). Remind the maintainer of this if another
@@ -176,6 +177,9 @@ ctest --test-dir build/firmware --output-on-failure   # run the tests
 ./gradlew testDebugUnitTest      # JVM unit tests
 ./gradlew assembleDebug          # build app/build/outputs/apk/debug/app-debug.apk
 ./gradlew lintDebug              # Android Lint, fails on an error
+
+# Arduino sketch, from the repository root (arduino-cli 1.5.1, see Known traps):
+arduino-cli compile --fqbn Seeeduino:nrf52:xiaonRF52840Plus --library firmware/render firmware/pin
 ```
 
 When a part gets its build, record here the exact commands to build it and to run its tests.
@@ -196,8 +200,12 @@ What has already cost time, or would. Add to this list when a new one is found.
 - The Kotlin hook (ktlint) runs Java: committing a `.kt` file needs Java on the PATH of the
   machine that commits.
 - The Android build finds the SDK through `ANDROID_HOME` or `android/local.properties`
-  (`sdk.dir=...`), which stays local. The SDK licences must be accepted once
-  (`sdkmanager --licenses`), otherwise Gradle cannot download the platform.
+  (`sdk.dir=...`), which stays local. `sdkmanager --licenses` no longer does anything: the
+  platform is installed with the Android CLI of the command-line tools, with
+  `android --no-metrics sdk install "platforms;android-37.0"`, or Gradle cannot build.
+- The Arduino core needs, on Linux, `adafruit-nrfutil` (0.5.3.post16, with pipx) and a
+  `python` command, even just to compile. Install the core with the board index URL of
+  `.github/workflows/ci.yml` and the version it pins.
 - Not tried on hardware yet, read in sources ([docs/adr/0012-ble-security.md](docs/adr/0012-ble-security.md),
   [docs/firmware.md](docs/firmware.md)): the Bluetooth library accepts every pairing request;
   a wake from System OFF is a restart with a button held; the XIAO's flash draws current
