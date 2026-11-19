@@ -33,8 +33,18 @@ repos:
     rev: v1.31.0
     hooks:
       - id: zizmor              # workflow security: pinned actions, token scope, template injection
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v23.1.5
+    hooks:
+      - id: clang-format
+        types_or: [c++, c]  # the default list also formats JSON
   - repo: local
     hooks:
+      - id: no-arduino-in-portable-code
+        name: no Arduino or Nordic header in firmware/render
+        language: pygrep
+        entry: '#\s*include\s*[<"](Arduino|bluefruit|Adafruit_\w*|SPI|Wire|nrf\w*|GxEPD\w*)\.h'
+        files: ^firmware/render/
       - id: check-docs
         name: links, ADR and spike indexes, ruleset file
         entry: python tools/check_docs.py

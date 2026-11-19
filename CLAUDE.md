@@ -15,7 +15,8 @@ Keep this section up to date when it changes.
 
 - Design phase. The repository contains documentation and repository tooling only.
 - No hardware has been ordered or measured.
-- No application or firmware code exists. CI only checks the documentation.
+- No application code exists. The portable C++ has its host build, one test and its CI job
+  (`firmware-host`), but no real code yet.
 - Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)).
 - **The first task is to set up the whole CI**: scaffolding, code quality tools and one job
   per part ([docs/testing.md](docs/testing.md)). Remind the maintainer of this if another
@@ -48,8 +49,7 @@ Keep this section up to date when it changes.
 | Rules applied to `main` on GitHub | [.github/rulesets/main.json](.github/rulesets/main.json) |
 | Project skills and agents | [.claude/](.claude/) |
 
-Planned directories, created with their first real file: `android/`, `firmware/render/`,
-`firmware/sim/`, `enclosure/`.
+Planned directories, created with their first real file: `android/`, `enclosure/`.
 
 ## Rules
 
@@ -165,10 +165,15 @@ Read [docs/testing.md](docs/testing.md) before writing code. In short:
 ```bash
 pre-commit run --all-files     # every lint and check, exactly as in CI
 bash tools/check_mermaid.sh    # every Mermaid diagram renders (needs Docker)
+
+# Portable C++ (firmware/render, firmware/sim, firmware/tests), on Linux or in WSL:
+cmake -S firmware -B build/firmware                   # configure: warnings as errors, sanitizers
+cmake --build build/firmware --parallel               # build
+ctest --test-dir build/firmware --output-on-failure   # run the tests
+./build/firmware/sim                                  # run the simulator
 ```
 
-When a build system lands, record here the exact commands to build and to run the tests of
-each part.
+When a part gets its build, record here the exact commands to build it and to run its tests.
 
 ## Known traps
 
@@ -179,6 +184,10 @@ What has already cost time, or would. Add to this list when a new one is found.
   the job itself.
 - Fixing a pull request title reruns CI by itself. Nothing has to be pushed.
 - `main` cannot be pushed to, by anyone. Every change goes through a pull request.
+- The host build of the C++ needs GCC or Clang: the sanitizer flags do not exist in MSVC.
+  On Windows, build and test in WSL.
+- `pre-commit run --all-files` only sees files known to git: `git add` a new file before
+  running it, or its hooks are skipped.
 - Not tried on hardware yet, read in sources ([docs/adr/0012-ble-security.md](docs/adr/0012-ble-security.md),
   [docs/firmware.md](docs/firmware.md)): the Bluetooth library accepts every pairing request;
   a wake from System OFF is a restart with a button held; the XIAO's flash draws current

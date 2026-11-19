@@ -1,7 +1,8 @@
 # Testing
 
-Status: **plan.** No code exists yet. This document says how each part of the project is
-meant to be tested, so that the code is written to be testable from the first commit.
+Status: **plan.** Only the host build of the portable C++ exists, with one test. This
+document says how each part of the project is meant to be tested, so that the code is
+written to be testable from the first commit.
 
 ## Principles
 
@@ -81,6 +82,10 @@ Two parts depend on Android and are kept thin:
 The button handling and the state machine live in the portable code too, driven by a clock
 passed as a parameter, so that long presses and delays are tested on the PC without waiting
 for real time.
+
+The host build uses CMake, and the tests use [doctest](https://github.com/doctest/doctest):
+a single header, quick to compile, fetched at a fixed version by CMake, so nothing
+third-party is committed. The tests run with CTest.
 
 The host tests are built with the address and undefined-behaviour sanitizers. The packet
 decoder and the reassembly code are also fuzzed: they are the only code on the pin that
@@ -227,7 +232,7 @@ is the single check that the rules of `main` require.
 | lint | Every hook of `.pre-commit-config.yaml`, and the rendering of the Mermaid diagrams | yes |
 | conventional-commit | The pull request title, which becomes the squashed commit, follows Conventional Commits | yes |
 | android | Kotlin unit tests, debug build, Android lint, and a check that the built app does not declare the network permission | no |
-| firmware-host | Build of the portable C++ on the PC with sanitizers, unit tests, contract vectors, golden images, pipeline test | no |
+| firmware-host | Build of the portable C++ on the PC with sanitizers, unit tests; later contract vectors, golden images, pipeline test | yes |
 | firmware-sketch | Compilation of the Arduino sketch for the board | no |
 | enclosure | Command-line render of the model | no |
 | ci-ok | Succeeds only if every job above succeeded | yes |
@@ -255,9 +260,9 @@ the whole CI before anything else.
 | Python (`tools/`) | ruff | Formatting and lint, one tool for both | yes |
 | Kotlin | ktlint | Formatting and style, one tool for both | no |
 | Android | Android Lint | Platform mistakes, missing permissions | no |
-| C++ | clang-format | Formatting | no |
-| C++ | Compiler warnings as errors (`-Wall -Wextra -Werror`) and the sanitizers | Most real mistakes, with no extra tool | no |
-| Project rules | A guard script that greps the code | What no linter knows: no Arduino include in the portable code, no network permission in the app, no update service in the firmware | no |
+| C++ | clang-format (`firmware/.clang-format`) | Formatting | yes |
+| C++ | Compiler warnings as errors (`-Wall -Wextra -Werror`) and the sanitizers | Most real mistakes, with no extra tool | yes |
+| Project rules | Pattern hooks of pre-commit (`language: pygrep`) | What no linter knows: no Arduino include in the portable code (in place), no network permission in the app, no update service in the firmware | partly |
 
 Left out on purpose until a real need shows: detekt and clang-tidy (slow, noisy on a small
 code base), spell checking, and a coverage threshold.
@@ -277,7 +282,6 @@ code base), spell checking, and a coverage threshold.
 To settle when the first code lands. They are recorded in the pull request that makes them;
 an ADR is only written for a choice that would be costly to reverse.
 
-- C++ test framework and PC build system for `firmware/`.
 - File format of the protocol vectors, and whether golden images are plain or binary PBM.
 - How the Android-dependent tests run (on the JVM with a simulated framework, or on an
   emulator).
