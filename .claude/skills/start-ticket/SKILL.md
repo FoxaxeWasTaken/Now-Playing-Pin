@@ -17,7 +17,8 @@ steps.
 2. **Stop and say so** if the ticket is not Ready (an open blocker, a *Done when* that cannot
    be checked), conflicts with an accepted ADR, is outside the V1 scope, or needs a
    **[to verify]** value to be true. Also stop if the working tree is not clean or another
-   ticket is In Progress.
+   branch is in progress, unless the maintainer is adding this ticket to that branch: then
+   skip step 3.
 3. **Branch** from an up-to-date `main`, linked to the issue:
 
    ```bash

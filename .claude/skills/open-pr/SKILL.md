@@ -32,7 +32,7 @@ Pull requests here are not reviews. The description is a short, true record of t
 1. **Title**: a conventional commit, `<type>(<scope>): <imperative sentence>`. It becomes the
    squash commit, and CI refuses any other form.
 2. **Body** from the template:
-   - `Closes #<n>`;
+   - one `Closes #<n>` line per ticket the branch finishes;
    - the evidence: the commands and their output, the RED then GREEN of the tests, the
      measurement. Only what was run in this session or shown by the maintainer;
    - what was not checked, and what is left for later;
