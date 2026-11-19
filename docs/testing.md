@@ -15,7 +15,10 @@ meant to be tested, so that the code is written to be testable from the first co
 4. **Images are compared exactly.** The output is 1 bit per pixel and the algorithms are
    deterministic. A golden image either matches byte for byte or the test fails.
 5. **What cannot be automated has a written checklist**, not a memory.
-6. **Whoever writes a reference does not approve it alone.** A golden image or a test vector
+6. **Test first.** Logic is written with TDD: a failing test, the code that makes it pass,
+   then the clean-up. The shared vectors and the golden images are the failing tests of the
+   protocol and of the renderer.
+7. **Whoever writes a reference does not approve it alone.** A golden image or a test vector
    produced by an agent is looked at by the maintainer before it is committed.
 
 ## Levels
@@ -222,6 +225,7 @@ is the single check that the rules of `main` require.
 | Job | Content | Exists |
 | --- | --- | --- |
 | docs | Markdown lint, and `tools/check_docs.py`: relative links, ADR and spike indexes, ruleset file | yes |
+| conventional-commit | The pull request title, which becomes the squashed commit, follows Conventional Commits | yes |
 | android | Kotlin unit tests, debug build, Android lint, and a check that the built app does not declare the network permission | no |
 | firmware-host | Build of the portable C++ on the PC with sanitizers, unit tests, contract vectors, golden images, pipeline test | no |
 | firmware-sketch | Compilation of the Arduino sketch for the board | no |
@@ -251,7 +255,7 @@ of the project: the whole CI before anything else.
 | Workflows | actionlint | Mistakes in the CI files themselves | no |
 
 Left out on purpose until a real need shows: detekt and clang-tidy (slow, noisy on a small
-code base), commit message linting, spell checking, and a coverage threshold.
+code base), spell checking, and a coverage threshold.
 
 ## What is not tested automatically
 

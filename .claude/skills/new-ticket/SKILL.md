@@ -23,8 +23,8 @@ Subject: $ARGUMENTS
 ## Content rules
 
 - English, like everything in the repository.
-- Title: `<area>: <imperative sentence>`, with the same areas as commits (`docs`, `android`,
-  `firmware`, `enclosure`, `hardware`, `tools`, `ci`).
+- Title: `<area>: <imperative sentence>`, with the areas of the `area:*` labels. A ticket
+  title is not a commit: the conventional commit form is for the pull request title.
 - One ticket is one pull request. If "Done when" needs more than about five boxes, split it.
 - "Done when" lists things that can be checked, not intentions.
 - "Depends on" names the tickets that must be closed first. "Out of scope" says what the

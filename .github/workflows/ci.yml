@@ -3,6 +3,8 @@ name: CI
 on:
   pull_request:
     branches: [main]
+    # "edited" so that fixing a pull request title runs the check again.
+    types: [opened, edited, synchronize, reopened]
   push:
     branches: [main]
 
@@ -27,6 +29,26 @@ jobs:
       - name: Links, indexes and ruleset
         run: python3 tools/check_docs.py
 
+  # Pull requests are squashed: the title is the commit that lands on main.
+  conventional-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the commit subject
+        env:
+          # Passed through the environment, never pasted into the script: a title is
+          # untrusted text.
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          HEAD_MESSAGE: ${{ github.event.head_commit.message }}
+        run: |
+          subject="${PR_TITLE:-$(printf '%s\n' "$HEAD_MESSAGE" | head -n 1)}"
+          pattern='^(feat|fix|docs|test|refactor|perf|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: .+'
+          if [[ ! "$subject" =~ $pattern ]]; then
+            echo "Not a conventional commit: $subject"
+            echo "Expected: <type>(<scope>): <description>, for example feat(firmware): add the QR share view"
+            exit 1
+          fi
+          echo "OK: $subject"
+
   # Add the other jobs here (android, firmware-host, firmware-sketch, enclosure) and list
   # them in the "needs" of ci-ok. A job must always run: ci-ok treats a skipped job as a
   # failure. To skip work when nothing relevant changed, put the condition on the steps,
@@ -34,7 +56,7 @@ jobs:
 
   ci-ok:
     if: always()
-    needs: [docs]
+    needs: [docs, conventional-commit]
     runs-on: ubuntu-latest
     steps:
       - name: Fail unless every job succeeded
