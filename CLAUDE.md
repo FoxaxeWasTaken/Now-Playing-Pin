@@ -84,7 +84,8 @@ Planned directories, created with their first real file: `android/`, `firmware/r
 
 - Work comes from GitHub issues. The issue body is the specification and its *Out of scope*
   section is binding.
-- One branch per ticket, from `main`, named `<type>/<issue#>-<short-topic>`.
+- One branch per ticket, from `main`, named `<type>/<issue#>-<short-topic>`. The maintainer
+  may put several related tickets on one branch, named after the first.
 - Never commit on `main` directly. Changes reach `main` through a pull request, which runs CI
   and leaves a short record. Nobody reviews it.
 - Commit and push only when the maintainer asks.
@@ -97,8 +98,8 @@ Planned directories, created with their first real file: `android/`, `firmware/r
 - A pull request updates every document it makes wrong. Documents say what exists, in the
   present, never how it got there.
 - Never commit signing keys, `local.properties` or credentials.
-- Work is tracked as GitHub issues on the "Now Playing Pin" project board. One ticket is one
-  pull request, and one ticket is in progress at a time.
+- Work is tracked as GitHub issues on the "Now Playing Pin" project board. A pull request
+  closes one ticket, or several related ones, and one branch is in progress at a time.
 
 ## Who does what
 

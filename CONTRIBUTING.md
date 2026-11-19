@@ -27,15 +27,15 @@ a conventional commit.
 
 ## 2. Workflow
 
-1. On the [project board](https://github.com/users/FoxaxeWasTaken/projects), take a ticket
-   from **Ready**, highest priority first, and move it to **In Progress** (§7). One ticket in
+1. On the [project board](https://github.com/users/FoxaxeWasTaken/projects/8), take a ticket
+   from **Ready**, highest priority first, and move it to **In Progress** (§7). One branch in
    progress at a time.
 2. Create a branch named after the issue: `git switch -c feat/<issue#>-<topic>` (§2.1).
 3. **Write the test first** (§4), then the code.
 4. Run the checks: `pre-commit run --all-files`, and the tests of the part you touched.
 5. Commit with a **conventional message** (§2.1). The hook rejects anything else.
-6. Open the pull request with a `Closes #<issue#>` line and the **evidence**: the commands
-   run and their output, or the measurement. The ticket moves to **In review**.
+6. Open the pull request with one `Closes #<issue#>` line per ticket and the **evidence**: the
+   commands run and their output, or the measurement. The ticket moves to **In review**.
 7. When CI is green, **squash merge**. The ticket closes and moves to **Done**, the branch
    is deleted.
 
@@ -47,7 +47,7 @@ a short record of what was done, how it was checked and what was left out
 
 | What | Format | Example | Checked by |
 | --- | --- | --- | --- |
-| Branch | `<type>/<issue#>-<short-topic>`, lowercase with hyphens | `feat/12-qr-share-view` | nobody |
+| Branch | `<type>/<issue#>-<short-topic>`, lowercase with hyphens. The number is the first ticket of the branch | `feat/12-qr-share-view` | nobody |
 | Commit | `<type>(<scope>): <description>` | `fix(firmware): keep the bond when a stranger pairs` | `commit-msg` hook, locally |
 | Pull request title | Same format: it becomes the squash commit on `main` | `feat(android): dither the cover` | CI, job `conventional-commit` |
 
@@ -146,7 +146,10 @@ throwaway spike code, to the enclosure model or to the thin layer that talks to 
 
 All planned work lives on one GitHub Project linked to this repository.
 
-- **One ticket is one pull request**, a few hours to two days of work. Bigger? Split it.
+- **A ticket is half a day to three days of work.** Bigger? Split it. Smaller? Fold it into
+  the ticket next to it, unless it is a bug.
+- **A pull request closes one ticket**, or several related ones when a CI run for each would
+  cost more than it gives. The branch then carries the number of the first.
 - **Statuses**: Backlog → **Ready** → In Progress → In review → Done.
 - **Milestone**: the outcome the ticket serves, from [docs/roadmap.md](docs/roadmap.md):
   `M1 Simulated pin`, `M2 Pin on the desk`, `M3 Wearable V1`, `Later`. Every ticket has one.
