@@ -52,8 +52,6 @@ Details and the list of things to confirm are in [docs/hardware.md](docs/hardwar
 
 ## Repository layout
 
-The directories marked "planned" are created when their first real file lands.
-
 ```text
 docs/         design documents
 tools/        scripts (documentation checks today; test vectors later)
@@ -63,7 +61,7 @@ firmware/     host build (CMake) of the portable C++
   render/     portable C++ (framebuffer, layout, QR code)
   sim/        PC executable that renders test packets to images
   tests/      unit tests of the portable C++ (doctest)
-enclosure/    parametric CAD                                         planned
+enclosure/    parametric CAD (OpenSCAD), the envelope only today
 ```
 
 ## Documentation

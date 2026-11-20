@@ -13,15 +13,15 @@ Android companion app does all the work and pushes ready-to-draw data over BLE.
 
 Keep this section up to date when it changes.
 
-- Design phase. The repository contains documentation and repository tooling only.
+- Design phase. The repository contains documentation and build scaffolding only.
 - No hardware has been ordered or measured.
 - The builds exist, each with its CI job: the Android app (`android`, an empty screen, one
-  test), the portable C++ (`firmware-host`, one test) and the Arduino sketch
-  (`firmware-sketch`, empty). No real code yet.
-- Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)).
-- **The first task is to set up the whole CI**: scaffolding, code quality tools and one job
-  per part ([docs/testing.md](docs/testing.md)). Remind the maintainer of this if another
-  task is about to start before it is done. The hardware pre-order checks run in parallel.
+  test), the portable C++ (`firmware-host`, one test), the Arduino sketch
+  (`firmware-sketch`, empty) and the enclosure (`enclosure`, the envelope only, OpenSCAD).
+  No real code yet. The CI is complete: one job per part and every code quality tool of
+  [docs/testing.md](docs/testing.md).
+- Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)). The hardware
+  pre-order checks run in parallel.
 - [ADR-0012](docs/adr/0012-ble-security.md) (BLE security) is proposed, not accepted: it
   waits for spike 0012 on the hardware.
 - The values in [docs/display-spec.md](docs/display-spec.md) are starting values, to confirm
@@ -49,8 +49,6 @@ Keep this section up to date when it changes.
 | Pull request and issue templates | [.github/](.github/) |
 | Rules applied to `main` on GitHub | [.github/rulesets/main.json](.github/rulesets/main.json) |
 | Project skills and agents | [.claude/](.claude/) |
-
-Planned directory, created with its first real file: `enclosure/`.
 
 ## Rules
 
@@ -180,6 +178,9 @@ ctest --test-dir build/firmware --output-on-failure   # run the tests
 
 # Arduino sketch, from the repository root (arduino-cli 1.5.1, see Known traps):
 arduino-cli compile --fqbn Seeeduino:nrf52:xiaonRF52840Plus --library firmware/render firmware/pin
+
+# Enclosure, from the repository root (OpenSCAD 2021.01):
+mkdir -p build/enclosure && openscad --hardwarnings -o build/enclosure/case.stl enclosure/case.scad
 ```
 
 When a part gets its build, record here the exact commands to build it and to run its tests.
@@ -222,5 +223,6 @@ permission in V1.
 landscape, 250 × 122. `firmware/render/` has no Arduino dependency and must build on a PC.
 After each refresh, the display and the QSPI flash go to deep sleep.
 
-**Enclosure (`enclosure/`)**: parametric CAD as code, every dimension a named variable at the
-top of the file. The tool is not chosen yet.
+**Enclosure (`enclosure/`)**: OpenSCAD 2021.01
+([ADR-0016](docs/adr/0016-openscad-for-the-enclosure.md)), every dimension a named variable at
+the top of the file.

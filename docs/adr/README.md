@@ -22,6 +22,7 @@ One file per decision that shapes the project. The process is defined in
 | [0013](0013-enclosure-envelope.md) | A thicker case with the battery behind the board | Accepted |
 | [0014](0014-arduino-seeed-nrf52-core.md) | Arduino with the Seeed nRF52 core | Accepted |
 | [0015](0015-only-chosen-apps-are-shown.md) | Only chosen apps are shown | Accepted |
+| [0016](0016-openscad-for-the-enclosure.md) | OpenSCAD for the enclosure | Accepted |
 
 ## Rules
 

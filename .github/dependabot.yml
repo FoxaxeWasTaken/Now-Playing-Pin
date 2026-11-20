@@ -1,6 +1,8 @@
 # Automatic dependency updates: one grouped pull request per ecosystem and per month.
 # Not covered, updated by hand: doctest (firmware/CMakeLists.txt), the ktlint version
-# (.pre-commit-config.yaml), the mermaid-cli image (tools/check_mermaid.sh).
+# (.pre-commit-config.yaml), the mermaid-cli image (tools/check_mermaid.sh), and in
+# .github/workflows/ci.yml the versions of arduino-cli, the Seeed core and adafruit-nrfutil,
+# and the runner image of the enclosure job, which sets the OpenSCAD version.
 version: 2
 updates:
   - package-ecosystem: github-actions

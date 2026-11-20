@@ -1,7 +1,7 @@
 # Testing
 
 Status: **plan.** Only the builds exist: the Android app and the host build of the portable
-C++ with one test each, and an empty Arduino sketch. This document says how each part of the
+C++ with one test each, an empty Arduino sketch and the envelope of the case. This document says how each part of the
 project is meant to be tested, so that the code is written to be testable from the first
 commit.
 
@@ -216,7 +216,8 @@ again after every change that was flagged as affecting consumption.
 
 ## Enclosure
 
-- CI renders the parametric model from the command line: the script must build without error.
+- CI exports every OpenSCAD model to STL from the command line: it must build without error
+  or warning.
 - Before a full print, small test pieces check the clearances: screen window, button caps or
   flexures, clips.
 - A fit checklist is run on the printed case: the panel is supported and not clamped, the
@@ -236,7 +237,7 @@ is the single check that the rules of `main` require.
 | android | Kotlin unit tests, debug build, Android lint, and a check that the built app does not declare the network permission | yes |
 | firmware-host | Build of the portable C++ on the PC with sanitizers, unit tests; later contract vectors, golden images, pipeline test | yes |
 | firmware-sketch | Compilation of the Arduino sketch for the board, with the portable C++, by the board's compiler | yes |
-| enclosure | Command-line render of the model | no |
+| enclosure | Export of every OpenSCAD model to STL, warnings as errors | yes |
 | ci-ok | Succeeds only if every job above succeeded | yes |
 
 Dependabot proposes the updates of the actions, the pre-commit hooks and the Gradle
@@ -268,6 +269,7 @@ the whole CI before anything else.
 | Android | Android Lint, in the `android` job | Platform mistakes, missing permissions | yes |
 | C++ | clang-format (`firmware/.clang-format`) | Formatting | yes |
 | C++ | Compiler warnings as errors (`-Wall -Wextra -Werror`) and the sanitizers | Most real mistakes, with no extra tool | yes |
+| OpenSCAD | Its own warnings as errors (`--hardwarnings`), in the `enclosure` job | Undefined variables and other mistakes in a model | yes |
 | Project rules | Pattern hooks of pre-commit (`language: pygrep`), and a step of the `android` job | What no linter knows: no Arduino include in the portable code, no network permission in the built app, no update service (`BLEDfu`) in the firmware | yes |
 
 Left out on purpose until a real need shows: detekt and clang-tidy (slow, noisy on a small
