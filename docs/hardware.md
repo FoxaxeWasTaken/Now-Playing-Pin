@@ -1,13 +1,15 @@
 # Hardware
 
-Status: **nothing has been ordered or measured.** Every value below comes from a public page
-or file. Each one says where it comes from. Anything tagged **[to verify]** must be confirmed
-on the real part before it is relied on.
+Status: **the board and the panel are ordered, not received. Nothing has been measured.**
+Every value below comes from a public page or file. Each one says where it comes from.
+Anything tagged **[to verify]** must be confirmed on the real part before it is relied on.
 
-Sources read on 2026-11-19:
+Sources, read on 2026-11-19 unless stated:
 
 - Seeed wiki, EN05 page (`wiki.seeedstudio.com/epaper_en05`), last updated 2026-10-20.
 - Seeed product page of the panel, ref. 104990845.
+- Seeed product pages of the board, ref. 100085486, and of the kit "XIAO ePaper DIY
+  Kit(nRF52840) - EN05", ref. E26042002, read on 2026-11-25.
 - EN05 "SCH&PCB" archive V1.11, linked from the wiki. Read once during a documentation
   review; nothing from it has been checked on a board.
 
@@ -15,7 +17,7 @@ Sources read on 2026-11-19:
 
 | Part | Choice | Known from the sources |
 | --- | --- | --- |
-| Board | Seeed XIAO ePaper Display Board EN05 (XIAO nRF52840 Plus) | 24-pin FPC connector, JST 2.0 mm battery connector, power slide switch, 3 user buttons and reset, PCB 1.2 mm thick (wiki) |
+| Board | Seeed XIAO ePaper Display Board EN05 (XIAO nRF52840 Plus), Seeed ref. 100085486 | 24-pin FPC connector, JST 2.0 mm battery connector, power slide switch, 3 user buttons and reset, PCB 1.2 mm thick (wiki) |
 | Screen | 2.13" black and white e-paper, 122 × 250 px, Seeed ref. 104990845 | 59.2 × 29.2 × 1.00 mm, active area 48.55 × 23.70 mm, controller SSD1680, 3.2 g, 0 to 50 °C in operation **[to verify]**. The product page lists the EN05 as a compatible board, and the wiki lists this panel as supported |
 | Battery | 3.7 V LiPo with protection. **Not chosen yet** | See "Battery" below |
 | Mount | Badge magnet with 3 neodymium magnets (about 45 × 13 mm) | See [safety.md](safety.md) |
@@ -31,6 +33,7 @@ project uses the black and white one: it refreshes faster and supports partial r
 | Mounting holes | 4 holes, 2.5 mm **[to verify]** | PCB file |
 | Component side | All components on one face **[to verify]** | PCB file |
 | Board dimensions on the wiki | Not given | Wiki |
+| Sold with | A 24-pin adapter and a 24-pin FFC extension cable, no panel. The XIAO nRF52840 Plus module is not a separate item, and no page says whether it is soldered on **[to verify]** | "Part List" of the board's product page. The kit page, used for the order, has no part list |
 | Charging | "Built-in charging IC" | Wiki. The chip and the charge current are not given |
 | NFC | "Onboard NFC interface" | Wiki. No antenna is described |
 
@@ -86,21 +89,27 @@ Not chosen. Criteria:
 
 | Part | Price | Source |
 | --- | --- | --- |
-| Panel | 5.85 USD (6.50 list) | Product page, 2026-11-19 |
-| Board | About 10 USD **[to verify]** | Reported during the review, not read on the wiki |
+| Board | €8.99 | Paid, 2026-11-26 |
+| Panel | €5.26 | Paid, 2026-11-26 |
+| Shipping, and the PayPal fee | €9.52 and €0.59 | Paid, 2026-11-26 |
 | Battery, magnet clip, filament | Unknown | |
 | Instrument that measures microamperes, if not already owned | Unknown | |
 
-## To check before ordering
+## Order
 
-- [x] The panel ref. 104990845 is supported by the EN05: stated on both the wiki and the
-      product page.
-- [ ] Whether the board is sold with or without the XIAO module and the panel.
-- [ ] A test battery: any protected cell of 100 mAh or more with the right connector. The
-      final cell is chosen after the parts are measured.
+Ordered on 2026-11-26 from the Seeed online store (`seeedstudio.com`), as the "XIAO ePaper DIY
+Kit(nRF52840) - EN05": one board and one panel, €24.36 in all.
+
+- The panel ref. 104990845 is supported by the EN05: stated on both the wiki and the product
+  page.
+- No spare panel. One is ordered if the first one breaks.
+- Not ordered yet: a test battery (any protected cell of 100 mAh or more with the board's
+  connector, see "Battery") and an instrument that measures microamperes.
 
 ## To check on reception
 
+- [ ] What is in the parcel: the XIAO module soldered on the board or not, the 24-pin adapter
+      and the extension cable.
 - [ ] Battery connector polarity with a multimeter, before plugging any battery.
 - [ ] Board and panel dimensions with calipers, including the height of the tallest
       components. They feed the enclosure parameters.

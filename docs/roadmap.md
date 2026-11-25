@@ -34,10 +34,10 @@ The riskiest questions (board idle current, display driver, connection interval)
 be answered with the real parts, and delivery takes time. Ordering does not wait for the
 software. These tickets belong to milestone M2.
 
-1. Close the checks listed under "To check before ordering" in [hardware.md](hardware.md).
-2. Order the board, the panel and a test battery: any protected cell of 100 mAh or more with
-   the right connector is enough for the spikes. A spare panel is worth considering: the
-   glass is fragile and every hardware test depends on it.
+1. The board and the panel are ordered ([hardware.md](hardware.md), "Order"), with no spare
+   panel.
+2. Order a test battery: any protected cell of 100 mAh or more with the right connector is
+   enough for the spikes.
 3. Make sure an instrument that measures microamperes is at hand (a suitable multimeter or a
    power profiler): the first spike on reception needs it.
 4. The final battery and the magnet clip are ordered later, once the parts are measured and
