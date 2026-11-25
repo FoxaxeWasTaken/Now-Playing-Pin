@@ -14,14 +14,14 @@ Android companion app does all the work and pushes ready-to-draw data over BLE.
 Keep this section up to date when it changes.
 
 - Design phase. The repository contains documentation and build scaffolding only.
-- No hardware has been ordered or measured.
+- The board and the panel are ordered (2026-11-26), not received. Nothing has been measured.
+  The test battery and the microampere instrument are not ordered yet.
 - The builds exist, each with its CI job: the Android app (`android`, an empty screen, one
   test), the portable C++ (`firmware-host`, one test), the Arduino sketch
   (`firmware-sketch`, empty) and the enclosure (`enclosure`, the envelope only, OpenSCAD).
   No real code yet. The CI is complete: one job per part and every code quality tool of
   [docs/testing.md](docs/testing.md).
-- Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)). The hardware
-  pre-order checks run in parallel.
+- Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)).
 - [ADR-0012](docs/adr/0012-ble-security.md) (BLE security) is proposed, not accepted: it
   waits for spike 0012 on the hardware.
 - The values in [docs/display-spec.md](docs/display-spec.md) are starting values, to confirm
