@@ -86,8 +86,8 @@ V1 has no settings screen, so the list is a constant in the code. It is not writ
    scripts fall back to the device's fonts. Every script and every emoji works without a
    font on the pin.
 5. **Share link.** A link to the track when Spotify gave an id, otherwise a search link built
-   from title and artist. 78 bytes at most ([protocol.md](protocol.md)). The search site and
-   the rule that shortens a long title are not defined yet.
+   from title and artist. 78 bytes at most. The links and the rule that shortens a long
+   title are in [protocol.md](protocol.md), "Share link".
 6. **Send over BLE**, as described in [protocol.md](protocol.md).
 
 The image processing steps, the fonts and every size are in
