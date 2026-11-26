@@ -16,11 +16,11 @@ Keep this section up to date when it changes.
 - Design phase. The repository contains documentation and build scaffolding only.
 - The board and the panel are ordered (2026-11-26), not received. Nothing has been measured.
   The test battery and the microampere instrument are not ordered yet.
-- The builds exist, each with its CI job: the Android app (`android`, an empty screen, one
-  test), the portable C++ (`firmware-host`), the Arduino sketch (`firmware-sketch`, empty)
-  and the enclosure (`enclosure`, the envelope only, OpenSCAD). The only real code is the
-  C++ encoding and decoding of the protocol messages (`firmware/protocol/`), tested against
-  the shared vectors. The CI is complete: one job per part and every code quality tool of
+- The builds exist, each with its CI job: the Android app (`android`, an empty screen), the
+  portable C++ (`firmware-host`), the Arduino sketch (`firmware-sketch`, empty) and the
+  enclosure (`enclosure`, the envelope only, OpenSCAD). The only real code is the encoding
+  and decoding of the protocol messages, in C++ (`firmware/protocol/`) and in Kotlin (the
+  app's `protocol` package), tested against the shared vectors. The CI is complete: one job per part and every code quality tool of
   [docs/testing.md](docs/testing.md).
 - Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)).
 - [ADR-0012](docs/adr/0012-ble-security.md) (BLE security) is proposed, not accepted: it

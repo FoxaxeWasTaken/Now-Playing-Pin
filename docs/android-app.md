@@ -1,6 +1,7 @@
 # Android companion app
 
-Status: design. The project builds an empty app, nothing else is implemented. Kotlin. This
+Status: design. The project builds an empty app. The only code is the encoding and decoding
+of the protocol messages, in the `protocol` package, which has no Android import. Kotlin. This
 document describes V1
 ([ADR-0010](adr/0010-v1-scope.md)).
 

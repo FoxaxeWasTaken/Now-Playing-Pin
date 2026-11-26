@@ -1,8 +1,8 @@
 # Testing
 
-Status: **plan, first tests in place.** The C++ encoding and decoding of the protocol runs
-against the shared vectors and is fuzzed. Otherwise only the builds exist: the Android app
-with one test, an empty Arduino sketch and the envelope of the case. This document says how
+Status: **plan, first tests in place.** The encoding and decoding of the protocol, in C++ and
+in Kotlin, run against the shared vectors, and the C++ one is fuzzed. Otherwise only the
+builds exist: an empty Android screen, an empty Arduino sketch and the envelope of the case. This document says how
 each part of the project is meant to be tested, so that the code is written to be testable
 from the first commit.
 
@@ -296,7 +296,7 @@ the whole CI before anything else.
 | C++ | clang-format (`firmware/.clang-format`) | Formatting | yes |
 | C++ | Compiler warnings as errors (`-Wall -Wextra -Werror`) and the sanitizers | Most real mistakes, with no extra tool | yes |
 | OpenSCAD | Its own warnings as errors (`--hardwarnings`), in the `enclosure` job | Undefined variables and other mistakes in a model | yes |
-| Project rules | Pattern hooks of pre-commit (`language: pygrep`), and a step of the `android` job | What no linter knows: no Arduino include in the portable code, no network permission in the built app, no update service (`BLEDfu`) in the firmware | yes |
+| Project rules | Pattern hooks of pre-commit (`language: pygrep`), and a step of the `android` job | What no linter knows: no Arduino include in the portable code, no Android import in the Kotlin protocol code, no network permission in the built app, no update service (`BLEDfu`) in the firmware | yes |
 
 Left out on purpose until a real need shows: detekt and clang-tidy (slow, noisy on a small
 code base), spell checking, and a coverage threshold.

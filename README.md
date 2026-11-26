@@ -55,7 +55,7 @@ Details and the list of things to confirm are in [docs/hardware.md](docs/hardwar
 ```text
 docs/         design documents
 tools/        documentation checks, and the protocol test vectors (vectors/)
-android/      companion app (Kotlin, Gradle), an empty screen today
+android/      companion app (Kotlin, Gradle): the protocol code and an empty screen
 firmware/     host build (CMake) of the portable C++
   pin/        Arduino sketch for the board (empty today)
   protocol/   portable C++ (encoding and decoding of the BLE messages)
