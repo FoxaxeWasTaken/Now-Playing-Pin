@@ -58,6 +58,7 @@ tools/        documentation checks, and the protocol test vectors (vectors/)
 android/      companion app (Kotlin, Gradle), an empty screen today
 firmware/     host build (CMake) of the portable C++
   pin/        Arduino sketch for the board (empty today)
+  protocol/   portable C++ (encoding and decoding of the BLE messages)
   render/     portable C++ (framebuffer, layout, QR code)
   sim/        PC executable that renders test packets to images
   tests/      unit tests of the portable C++ (doctest)

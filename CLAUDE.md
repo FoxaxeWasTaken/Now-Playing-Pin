@@ -17,9 +17,10 @@ Keep this section up to date when it changes.
 - The board and the panel are ordered (2026-11-26), not received. Nothing has been measured.
   The test battery and the microampere instrument are not ordered yet.
 - The builds exist, each with its CI job: the Android app (`android`, an empty screen, one
-  test), the portable C++ (`firmware-host`, one test), the Arduino sketch
-  (`firmware-sketch`, empty) and the enclosure (`enclosure`, the envelope only, OpenSCAD).
-  No real code yet. The CI is complete: one job per part and every code quality tool of
+  test), the portable C++ (`firmware-host`), the Arduino sketch (`firmware-sketch`, empty)
+  and the enclosure (`enclosure`, the envelope only, OpenSCAD). The only real code is the
+  C++ encoding and decoding of the protocol messages (`firmware/protocol/`), tested against
+  the shared vectors. The CI is complete: one job per part and every code quality tool of
   [docs/testing.md](docs/testing.md).
 - Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)).
 - [ADR-0012](docs/adr/0012-ble-security.md) (BLE security) is proposed, not accepted: it
@@ -165,7 +166,7 @@ Read [docs/testing.md](docs/testing.md) before writing code. In short:
 pre-commit run --all-files     # every lint and check, exactly as in CI
 bash tools/check_mermaid.sh    # every Mermaid diagram renders (needs Docker)
 
-# Portable C++ (firmware/render, firmware/sim, firmware/tests), on Linux or in WSL:
+# Portable C++ (firmware/render, firmware/protocol, firmware/sim, firmware/tests), on Linux or in WSL:
 cmake -S firmware -B build/firmware                   # configure: warnings as errors, sanitizers
 cmake --build build/firmware --parallel               # build
 ctest --test-dir build/firmware --output-on-failure   # run the tests
@@ -220,7 +221,8 @@ not on the pin, following `docs/display-spec.md`. Only chosen apps are shown. No
 permission in V1.
 
 **Firmware (`firmware/`)**: Arduino, Seeed nRF52 core with Bluefruit. The screen is used in
-landscape, 250 × 122. `firmware/render/` has no Arduino dependency and must build on a PC.
+landscape, 250 × 122. `firmware/render/` and `firmware/protocol/` have no Arduino dependency
+and must build on a PC.
 After each refresh, the display and the QSPI flash go to deep sleep.
 
 **Enclosure (`enclosure/`)**: OpenSCAD 2021.01

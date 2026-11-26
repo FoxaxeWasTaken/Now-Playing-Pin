@@ -1,9 +1,10 @@
 # Testing
 
-Status: **plan.** Only the builds exist: the Android app and the host build of the portable
-C++ with one test each, an empty Arduino sketch and the envelope of the case. This document says how each part of the
-project is meant to be tested, so that the code is written to be testable from the first
-commit.
+Status: **plan, first tests in place.** The C++ encoding and decoding of the protocol runs
+against the shared vectors and is fuzzed. Otherwise only the builds exist: the Android app
+with one test, an empty Arduino sketch and the envelope of the case. This document says how
+each part of the project is meant to be tested, so that the code is written to be testable
+from the first commit.
 
 ## Principles
 
@@ -91,7 +92,9 @@ third-party is committed. The tests run with CTest.
 
 The host tests are built with the address and undefined-behaviour sanitizers. The packet
 decoder and the reassembly code are also fuzzed: they are the only code on the pin that
-reads bytes coming from the radio.
+reads bytes coming from the radio. The fuzzing is a loop in the tests, with a fixed seed,
+over random bytes and mutated vectors: GCC has no built-in fuzzer, and the sanitizers catch
+any read out of bounds. Whatever a decoder accepts must encode back to the same bytes.
 
 ## Level 2: contract tests
 
@@ -258,7 +261,7 @@ is the single check that the rules of `main` require.
 | lint | Every hook of `.pre-commit-config.yaml`, and the rendering of the Mermaid diagrams | yes |
 | conventional-commit | The pull request title, which becomes the squashed commit, follows Conventional Commits | yes |
 | android | Kotlin unit tests, debug build, Android lint, and a check that the built app does not declare the network permission | yes |
-| firmware-host | Build of the portable C++ on the PC with sanitizers, unit tests; later contract vectors, golden images, pipeline test | yes |
+| firmware-host | Build of the portable C++ on the PC with sanitizers, unit tests, contract vectors and fuzzing; later golden images and the pipeline test | yes |
 | firmware-sketch | Compilation of the Arduino sketch for the board, with the portable C++, by the board's compiler | yes |
 | enclosure | Export of every OpenSCAD model to STL, warnings as errors | yes |
 | ci-ok | Succeeds only if every job above succeeded | yes |
