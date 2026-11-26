@@ -95,17 +95,40 @@ reads bytes coming from the radio.
 
 ## Level 2: contract tests
 
-The protocol test vectors are language-neutral files, kept in one place (proposed:
-`tools/vectors/`). Each vector holds the decoded fields and the expected bytes.
+The protocol test vectors are language-neutral text files in `tools/vectors/`, one per
+characteristic: `track.txt`, `image.txt`, `state.txt`, `control.txt`, and `identity.txt` for
+the CRC-32 that identifies a bundle. Each vector holds the decoded fields and the expected
+bytes.
 
-Both implementations run every vector in both directions:
+The format is plain enough for each side to read in a few lines, with no library:
+
+- A vector is a block of `key: value` lines. A blank line separates two vectors, and a line
+  that starts with `#` is a comment.
+- The key is what comes before the first colon, the value what follows it, without the
+  spaces around it. A value may be empty: an empty link, an empty write.
+- `name` describes the vector. `message` names the message of a valid vector: `open`, `end`,
+  `packet`, `state`, `hello`, `acknowledgement`, `resend_request`, `refusal` or `identity`.
+  The other keys are the fields of [protocol.md](protocol.md), in snake_case.
+- Integers are decimal, or hexadecimal after `0x`. The playback state and the refusal reason
+  are names: `nothing_playing`, `playing`, `paused`; `unknown_version`, `malformed`,
+  `image_size`, `invalid_link`. Bytes (`bytes`, `data`, `cover`, `text`) are pairs of
+  lowercase hexadecimal digits, separated by a space.
+- An invalid vector has no `message`. It holds the `bytes` and the expected `error`: a refusal
+  reason, `beyond_image` for a packet past the end of its image, or `wrong_crc` for an
+  identity that does not match the content. Image packet vectors also give `image_size`,
+  which the decoder needs.
+
+Both implementations run every valid vector in both directions:
 
 - fields → bytes must give exactly the expected bytes;
 - bytes → fields must give exactly the expected fields.
 
-Invalid vectors are part of the set, with the expected error: truncated packet, wrong CRC,
-offset beyond the image, link longer than the limit, image size the pin cannot place,
-unknown version.
+Every invalid vector must give exactly its error. The identity vectors give the content and
+its identity, which both sides must compute, and one wrong identity, which must be refused.
+
+The invalid vectors cover at least: a truncated message, a wrong CRC, an offset beyond the
+image, a link longer than the limit, an image size the pin cannot place, an unknown
+version.
 
 Rule: a protocol change updates [protocol.md](protocol.md), the vectors and both
 implementations in the same pull request. A vector that passes on one side only is a
@@ -290,7 +313,7 @@ code base), spell checking, and a coverage threshold.
 To settle when the first code lands. They are recorded in the pull request that makes them;
 an ADR is only written for a choice that would be costly to reverse.
 
-- File format of the protocol vectors, and whether golden images are plain or binary PBM.
+- Whether golden images are plain or binary PBM.
 - How the Android-dependent tests run (on the JVM with a simulated framework, or on an
   emulator).
 - QR reader used by the round-trip test.

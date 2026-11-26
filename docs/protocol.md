@@ -17,7 +17,8 @@ listed so that the format leaves room for it.
 The protocol carries a version number, one byte. This draft is version 0, and the first
 frozen version is 1. Every write from the phone starts with the version it uses, and the pin
 announces the version it speaks in its hello (see "Connection lifecycle"). A pin that
-receives a version it does not know refuses the message on Control. The app and the
+receives a version it does not know refuses the message on Control, and a phone that
+receives a hello with a version it does not know goes no further and says so in the app. The app and the
 firmware are released by the same person, so V1 supports exactly one version at a time.
 
 The first two bytes of the hello, its type and the version, keep their meaning in every
@@ -202,7 +203,9 @@ A resend request asks for the whole bundle again, with a new Open.
 | 0x03 | An image size the pin cannot place |
 | 0x04 | An invalid link: too long, or a byte outside printable ASCII |
 
-A refused message changes nothing: the screen and the bundle held stay as they were.
+When several reasons apply, the first one in the table is given. A message too short to hold
+its version is malformed. A refused message changes nothing: the screen and the bundle held
+stay as they were.
 
 Types and reasons not listed are reserved. Media control and settings, later, take new values
 or new characteristics.

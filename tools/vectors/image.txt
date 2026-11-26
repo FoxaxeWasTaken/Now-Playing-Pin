@@ -1,0 +1,33 @@
+# Protocol test vectors: image packets, on Cover and Text.
+# Format: docs/testing.md, "Level 2: contract tests".
+
+name: first packet
+message: packet
+image_size: 1952
+counter: 1
+offset: 0
+data: ff 00 81
+bytes: 01 00 00 00 ff 00 81
+
+name: last two bytes of the image
+message: packet
+image_size: 1952
+counter: 513
+offset: 1950
+data: aa 55
+bytes: 01 02 9e 07 aa 55
+
+name: packet beyond the image
+image_size: 1952
+bytes: 01 02 9f 07 aa 55
+error: beyond_image
+
+name: header without data
+image_size: 1952
+bytes: 01 00 00 00
+error: malformed
+
+name: header cut short
+image_size: 1952
+bytes: 01 00 00
+error: malformed
