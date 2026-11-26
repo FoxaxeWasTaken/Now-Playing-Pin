@@ -1,0 +1,68 @@
+# Protocol test vectors: Control (hello, acknowledgement, resend request, refusal).
+# Format: docs/testing.md, "Level 2: contract tests".
+
+name: hello with a bundle held
+message: hello
+version: 0
+firmware: 0.1.0
+held: 1
+identity: 0xcbf43926
+bytes: 01 00 00 01 00 01 26 39 f4 cb
+
+name: hello with no bundle
+message: hello
+version: 0
+firmware: 1.2.3
+held: 0
+identity: 0x00000000
+bytes: 01 00 01 02 03 00 00 00 00 00
+
+name: acknowledgement
+message: acknowledgement
+counter: 1
+bytes: 02 01 00
+
+name: resend request
+message: resend_request
+counter: 43981
+bytes: 03 cd ab
+
+name: refusal, unknown version
+message: refusal
+reason: unknown_version
+bytes: 04 01
+
+name: refusal, malformed
+message: refusal
+reason: malformed
+bytes: 04 02
+
+name: refusal, image size
+message: refusal
+reason: image_size
+bytes: 04 03
+
+name: refusal, invalid link
+message: refusal
+reason: invalid_link
+bytes: 04 04
+
+name: hello from a pin that speaks another version
+bytes: 01 01 00 01 00 00 00 00 00 00
+error: unknown_version
+
+name: unknown type
+bytes: 05
+error: malformed
+
+name: hello cut short
+bytes: 01 00 00 01 00 01 26 39 f4
+error: malformed
+
+name: unknown refusal reason
+bytes: 04 05
+error: malformed
+
+name: empty notification
+bytes:
+error: malformed

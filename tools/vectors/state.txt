@@ -1,0 +1,36 @@
+# Protocol test vectors: State.
+# Format: docs/testing.md, "Level 2: contract tests".
+
+name: playing
+message: state
+version: 0
+state: playing
+bytes: 00 01
+
+name: paused
+message: state
+version: 0
+state: paused
+bytes: 00 02
+
+name: nothing playing
+message: state
+version: 0
+state: nothing_playing
+bytes: 00 00
+
+name: unknown version
+bytes: 01 01
+error: unknown_version
+
+name: unknown state
+bytes: 00 03
+error: malformed
+
+name: state cut short
+bytes: 00
+error: malformed
+
+name: state too long
+bytes: 00 01 00
+error: malformed

@@ -1,0 +1,30 @@
+# Protocol test vectors: identity of a bundle (CRC-32 of cover, text and link).
+# Format: docs/testing.md, "Level 2: contract tests".
+
+name: small images and a link
+message: identity
+cover: 01 02 03
+text: 04 05
+link: https://open.spotify.com/track/1a2B3c4D5e6F7g8H9i0JkL
+identity: 0x9b1dc4da
+
+name: no link
+message: identity
+cover: 00
+text: ff
+link:
+identity: 0x6cdbfd72
+
+name: the CRC check value
+message: identity
+cover: 31 32 33 34
+text: 35 36 37 38
+link: 9
+identity: 0xcbf43926
+
+name: wrong identity
+cover: 01 02 03
+text: 04 05
+link: https://open.spotify.com/track/1a2B3c4D5e6F7g8H9i0JkL
+identity: 0x9b1dc4db
+error: wrong_crc

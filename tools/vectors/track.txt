@@ -1,0 +1,85 @@
+# Protocol test vectors: Track (Open and End).
+# Format: docs/testing.md, "Level 2: contract tests".
+
+name: open with a track link
+message: open
+version: 0
+counter: 1
+state: playing
+cover_width: 122
+cover_height: 122
+text_width: 128
+text_height: 122
+link: https://open.spotify.com/track/1a2B3c4D5e6F7g8H9i0JkL
+bytes: 00 01 01 00 01 7a 7a 80 7a 35 68 74 74 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f 74 72 61 63 6b 2f 31 61 32 42 33 63 34 44 35 65 36 46 37 67 38 48 39 69 30 4a 6b 4c
+
+name: open without a link
+message: open
+version: 0
+counter: 65535
+state: nothing_playing
+cover_width: 122
+cover_height: 122
+text_width: 128
+text_height: 122
+link:
+bytes: 00 01 ff ff 00 7a 7a 80 7a 00
+
+name: open with the longest link
+message: open
+version: 0
+counter: 4660
+state: paused
+cover_width: 122
+cover_height: 122
+text_width: 128
+text_height: 122
+link: https://open.spotify.com/search/Invented%20Title%20of%20a%20Song%20Some%20Band
+bytes: 00 01 34 12 02 7a 7a 80 7a 4e 68 74 74 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f 73 65 61 72 63 68 2f 49 6e 76 65 6e 74 65 64 25 32 30 54 69 74 6c 65 25 32 30 6f 66 25 32 30 61 25 32 30 53 6f 6e 67 25 32 30 53 6f 6d 65 25 32 30 42 61 6e 64
+
+name: end
+message: end
+version: 0
+counter: 258
+identity: 0xcbf43926
+bytes: 00 02 02 01 26 39 f4 cb
+
+name: unknown version
+bytes: 01 01 01 00 01 7a 7a 80 7a 35 68 74 74 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f 74 72 61 63 6b 2f 31 61 32 42 33 63 34 44 35 65 36 46 37 67 38 48 39 69 30 4a 6b 4c
+error: unknown_version
+
+name: empty write
+bytes:
+error: malformed
+
+name: unknown type
+bytes: 00 03 01 00
+error: malformed
+
+name: open cut short
+bytes: 00 01 ff ff 00 7a 7a 80 7a
+error: malformed
+
+name: open whose link is shorter than its length
+bytes: 00 01 01 00 01 7a 7a 80 7a 05 61 62 63
+error: malformed
+
+name: open with an unknown state
+bytes: 00 01 01 00 03 7a 7a 80 7a 00
+error: malformed
+
+name: end cut short
+bytes: 00 02 02 01 26 39 f4
+error: malformed
+
+name: cover size the pin cannot place
+bytes: 00 01 01 00 01 78 7a 80 7a 00
+error: image_size
+
+name: link longer than the limit
+bytes: 00 01 01 00 01 7a 7a 80 7a 4f 68 74 74 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f 73 65 61 72 63 68 2f 49 6e 76 65 6e 74 65 64 25 32 30 54 69 74 6c 65 25 32 30 6f 66 25 32 30 61 25 32 30 53 6f 6e 67 25 32 30 53 6f 6d 65 25 32 30 42 61 6e 64 78
+error: invalid_link
+
+name: link with a space
+bytes: 00 01 01 00 01 7a 7a 80 7a 29 68 74 74 70 73 3a 2f 2f 6f 70 65 6e 2e 73 70 6f 74 69 66 79 2e 63 6f 6d 2f 73 65 61 72 63 68 2f 74 77 6f 20 77 6f 72 64 73
+error: invalid_link

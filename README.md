@@ -54,7 +54,7 @@ Details and the list of things to confirm are in [docs/hardware.md](docs/hardwar
 
 ```text
 docs/         design documents
-tools/        scripts (documentation checks today; test vectors later)
+tools/        documentation checks, and the protocol test vectors (vectors/)
 android/      companion app (Kotlin, Gradle), an empty screen today
 firmware/     host build (CMake) of the portable C++
   pin/        Arduino sketch for the board (empty today)
