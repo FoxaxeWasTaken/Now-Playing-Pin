@@ -69,7 +69,8 @@ pin is worn in public, and a media session is not always music: a podcast, a vid
 voice message can open one. A session from an app that is not on the list is ignored, as if
 nothing was playing.
 
-V1 has no settings screen, so the list is a constant in the code. It is not written yet.
+V1 has no settings screen, so the list is a constant in the code. In V1 it holds Spotify
+only.
 
 ## Pipeline for one track
 

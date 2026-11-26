@@ -6,9 +6,10 @@ artist. One button switches to a QR code so the person next to you can open the 
 The pin is held on clothing by a magnetic badge clip and is meant to run for months on a
 small LiPo cell.
 
-> **Status: design phase.** The board and the panel are ordered, nothing has been measured,
-> and this repository contains documentation and build scaffolding only. Values tagged **[to verify]** come from public pages and have
-> not been confirmed on a real part. Battery life figures are estimates, never measured.
+> **Status: early development (M1, simulated pin).** The board and the panel are ordered,
+> nothing has been measured. The repository holds the documentation, the build of each part
+> and the first code: the BLE protocol messages, in Kotlin and C++. Values tagged
+> **[to verify]** come from public pages and have not been confirmed on a real part. Battery life figures are estimates, never measured.
 
 ## How it works
 
