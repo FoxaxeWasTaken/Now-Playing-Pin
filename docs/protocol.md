@@ -1,7 +1,8 @@
 # BLE protocol (draft v0)
 
-Status: **draft, not frozen.** The C++ side encodes and decodes every message
-(`firmware/protocol/`); the Kotlin side does not exist yet. Every message has its byte layout
+Status: **draft, not frozen.** Both sides encode and decode every message, tested against the
+same vectors: C++ in `firmware/protocol/`, Kotlin in the app's `protocol` package. Every
+message has its byte layout
 below. The protocol is frozen in M2, once the spikes listed at the end have answered its
 open questions. The timeouts are starting values.
 

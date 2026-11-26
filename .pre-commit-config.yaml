@@ -51,6 +51,11 @@ repos:
         language: pygrep
         entry: '#\s*include\s*[<"](Arduino|bluefruit|Adafruit_\w*|SPI|Wire|nrf\w*|GxEPD\w*)\.h'
         files: ^firmware/(render|protocol)/
+      - id: no-android-in-protocol
+        name: no Android import in the Kotlin protocol code
+        language: pygrep
+        entry: '^import androidx?\.'
+        files: ^android/app/src/main/kotlin/.*/protocol/
       - id: no-update-service
         name: no over-the-air update service in the firmware
         language: pygrep
