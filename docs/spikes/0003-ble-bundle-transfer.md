@@ -12,7 +12,7 @@ with Write Without Response, and how often does a write fail to arrive?
 
 ## Why it matters
 
-The protocol uses Write Without Response for the images and relies on a CRC16 and a resend
+The protocol uses Write Without Response for the images and relies on a CRC-32 and a resend
 request for safety. The header layout and the acknowledgement format should be frozen
 knowing how the transfer really behaves.
 

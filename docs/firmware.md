@@ -145,8 +145,9 @@ loss of link does not cost a refresh each time.
 library does not work, the fallback is a small SSD1680 driver.
 
 The panel's own memory is in portrait, 122 columns stored in 128. The sketch converts the
-landscape framebuffer to that layout. The bit order of the protocol and of the framebuffer
-is chosen to keep this conversion cheap. A 180° rotation is a build-time constant, because
+landscape framebuffer to that layout. The framebuffer uses the image layout of the protocol
+(1 is black, leftmost pixel in the most significant bit, [protocol.md](protocol.md)), and
+the conversion also inverts the bits if the panel stores white as 1. A 180° rotation is a build-time constant, because
 the side on which the panel is mounted in the case is not known yet.
 
 ## Firmware update

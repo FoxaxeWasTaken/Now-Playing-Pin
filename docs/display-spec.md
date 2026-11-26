@@ -9,8 +9,8 @@ rendering can be coded and tested with golden images, and they are expected to c
 
 - 250 × 122 px, landscape, black and white, no grey.
 - Active area 48.55 × 23.70 mm, about 0.194 mm per pixel (product page, **[to verify]**).
-- Origin at the top left. A pixel is black or white; which bit value is black is fixed with
-  the protocol byte layouts ([protocol.md](protocol.md)).
+- Origin at the top left. A pixel is black or white: bit 1 is black, in the image layout of
+  the protocol ([protocol.md](protocol.md), "Encoding").
 - The mounting side of the panel in the case is not known yet, so a 180° rotation is a
   build-time constant of the firmware from V1.
 
