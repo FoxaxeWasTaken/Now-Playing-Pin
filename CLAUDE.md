@@ -13,21 +13,21 @@ Android companion app does all the work and pushes ready-to-draw data over BLE.
 
 Keep this section up to date when it changes.
 
-- Design phase. The repository contains documentation and build scaffolding only.
+- M1 in progress. The repository holds the documentation, the build of each part with its
+  CI job, and the first real code: the protocol messages, encoded and decoded in C++
+  (`firmware/protocol/`) and in Kotlin (the app's `protocol` package) against the shared
+  vectors.
 - The board and the panel are ordered (2026-11-26), not received. Nothing has been measured.
   The test battery and the microampere instrument are not ordered yet.
-- The builds exist, each with its CI job: the Android app (`android`, an empty screen), the
-  portable C++ (`firmware-host`), the Arduino sketch (`firmware-sketch`, empty) and the
-  enclosure (`enclosure`, the envelope only, OpenSCAD). The only real code is the encoding
-  and decoding of the protocol messages, in C++ (`firmware/protocol/`) and in Kotlin (the
-  app's `protocol` package), tested against the shared vectors. The CI is complete: one job per part and every code quality tool of
-  [docs/testing.md](docs/testing.md).
+- The builds: the Android app (`android`, an empty screen), the portable C++
+  (`firmware-host`), the Arduino sketch (`firmware-sketch`, empty) and the enclosure
+  (`enclosure`, the envelope only, OpenSCAD). The CI is complete: one job per part and every
+  code quality tool of [docs/testing.md](docs/testing.md).
 - Current milestone: M1 Simulated pin ([docs/roadmap.md](docs/roadmap.md)).
 - [ADR-0012](docs/adr/0012-ble-security.md) (BLE security) is proposed, not accepted: it
   waits for spike 0012 on the hardware.
 - The values in [docs/display-spec.md](docs/display-spec.md) are starting values, to confirm
   with spike 0011.
-- Not decided: the list of apps shown on the pin.
 
 ## Where things are
 
@@ -217,7 +217,7 @@ What has already cost time, or would. Add to this list when a new one is found.
 
 **Android (`android/`)**: Kotlin, installed by hand. The Spotify broadcast receiver is
 registered in code and its content is not trusted. Image and text processing happen here,
-not on the pin, following `docs/display-spec.md`. Only chosen apps are shown. No network
+not on the pin, following `docs/display-spec.md`. Only chosen apps are shown: Spotify alone in V1. No network
 permission in V1.
 
 **Firmware (`firmware/`)**: Arduino, Seeed nRF52 core with Bluefruit. The screen is used in
