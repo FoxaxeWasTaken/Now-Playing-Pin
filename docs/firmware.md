@@ -182,6 +182,8 @@ The rendering code (layout, QR code, icons) is **portable C++ with no Arduino de
 ([ADR-0008](adr/0008-portable-renderer-and-simulator.md)). It draws into a 1-bit framebuffer.
 
 - `firmware/render/`: the library.
+- `firmware/protocol/`: the encoding and decoding of the protocol messages
+  ([protocol.md](protocol.md)), with no Arduino dependency either.
 - `firmware/sim/`: a PC executable that takes test packets and writes PNG or PBM images.
 
 The views can therefore be designed and tested before any hardware exists, and the Arduino
